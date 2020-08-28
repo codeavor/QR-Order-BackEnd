@@ -30,6 +30,6 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         with:
-          coverageCommand: ./vendor/bin/phpunit --coverage-clover report
+          coverageCommand: ./vendor/bin/phpunit --coverage-clover clover.xml
           debug: true
-          coverageLocations: ${{github.workspace}}/report:clover
+          coverageLocations: ${{github.workspace}}/clover.xml:clover
