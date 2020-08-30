@@ -16,6 +16,15 @@
 -   Run `php artisan migrate`
 -   Run `php artisan serve`
 
+## How to use postgres database:
+
+-   Install Postgres from [here](https://www.postgresql.org/download/)
+-   Search for `;extension=pdo_pgsql` and `;extension=pgsql` inside php.ini file located in xampp's folder and remove the `;`
+-   In .env file change DB_CONNECTION, DB_PORT, DB_DATABASE, DB_USERNAME and DB_PASSWORD matching postgres' defaults
+-   In xampp start only the Apache Module
+-   Create your migration files as usual and run migration
+
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
