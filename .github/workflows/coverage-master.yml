@@ -39,4 +39,4 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           GIT_BRANCH: ${{ github.base_ref }}
-          DB_PORT: ${{ job.services.mysql.ports[5432] }}
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
