@@ -38,3 +38,4 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           GIT_BRANCH: ${{ github.base_ref }}
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          POSTGRES_HOST: localhost
