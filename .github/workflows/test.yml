@@ -30,7 +30,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
-          POSTGRES_HOST: localhost
+          DB_HOST: localhost
         with:
           coverageCommand: ./vendor/bin/phpunit --coverage-clover clover.xml
           debug: true
