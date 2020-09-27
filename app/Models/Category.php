@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
+    use HasFactory;
+
     // Timestamps
     public $timestamps = false;
 
@@ -15,6 +18,6 @@ class Category extends Model
     // One to Many relation, one item has one category, one category has many items
     public function items()
     {
-        return $this->hasMany('App\Item');
+        return $this->hasMany('App\Models\Item');
     }
 }

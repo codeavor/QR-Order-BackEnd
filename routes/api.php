@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('menu', 'Menu\MenuController')->except(['create', 'edit', 'update', 'destroy', 'store']);;
+Route::get('umbrella_{id}', 'Umbrella\UmbrellaController@umbrellaById')->name('specific_umbrella');

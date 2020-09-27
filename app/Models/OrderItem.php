@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +15,6 @@ class OrderItem extends Model
     // Many to Many relation, one order item has many extras, one extra has many order items
     public function extras()
     {
-        return $this->belongsToMany('App\Extra', 'order_item_extras');
+        return $this->belongsToMany('App\Models\Extra', 'order_item_extras');
     }
 }

@@ -21,6 +21,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/test', function() {
+    // Return json with greek characters, for every category show it's items
+    $items = \App\Models\Category::with('Items')->get();
+    /*
+    * For specific category
+    * $items = \App\Category::with('Items')->find(1);
+    */ 
+    return response()->json($items, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+});
+
 // Route::get('/test', function() {
     // How to reset auto increment
     /*

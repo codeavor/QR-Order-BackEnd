@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,12 +15,12 @@ class Extra extends Model
     // Many to Many relation, one order item has many extras, one extra has many order items
     public function order_items()
     {
-        return $this->belongsToMany('App\OrderItem', 'order_item_extras');
+        return $this->belongsToMany('App\Models\OrderItem', 'order_item_extras');
     }
 
     // Many to Many relation, one item has many extras, one extra has many items
     public function items()
     {
-        return $this->belongsToMany('App\Item', 'item_extras');
+        return $this->belongsToMany('App\Models\Item', 'item_extras');
     }
 }

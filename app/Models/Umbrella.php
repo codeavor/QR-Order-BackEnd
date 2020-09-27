@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Umbrella extends Model
 {
+    use HasFactory;
+
     // Timestamps
     public $timestamps = false;
 
@@ -15,6 +18,6 @@ class Umbrella extends Model
     // One to Many relation, one order has one umbrella, one umbrella has many orders
     public function orders()
     {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Models\Order');
     }
 }
