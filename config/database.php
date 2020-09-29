@@ -3,11 +3,11 @@
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
-$env = getenv("APP_ENV");
+$env = getenv('APP_ENV');
 
 if ($env == 'production')
 {
-    $url = parse_url(getenv("DATABASE_URL"));
+    $url = parse_url(getenv('DATABASE_URL'));
 
     $host = $url["host"];
     $username = $url["user"];
