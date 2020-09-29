@@ -3,7 +3,9 @@
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
-if (App::environment('production'))
+$env = getenv("APP_ENV");
+
+if ($env == 'production')
 {
     $url = parse_url(getenv("DATABASE_URL"));
 
