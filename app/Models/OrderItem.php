@@ -13,7 +13,7 @@ class OrderItem extends Model
     public $timestamps = false;
 
     // Field that has to be filled
-    protected $fillable = ['quantity'];
+    protected $fillable = ['order_id', 'item_id', 'quantity'];
 
     // Many to Many relation, one order item has many extras, one extra has many order items
     public function extras()

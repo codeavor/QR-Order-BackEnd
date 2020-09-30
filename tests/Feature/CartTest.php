@@ -28,10 +28,13 @@ class CartTest extends TestCase
         $this->umbrella = Umbrella::factory()->create();
         $this->order = Order::factory()->create();
         $this->umbrella->orders()->save($this->order);
-        $this->item->orders()->attach($this->order, ['quantity' => 2]);
         $this->extra->items()->attach($this->item);
 
-        $this->orderitem = OrderItem::where('order_id', $this->order->id)->first();
+        $this->orderitem = OrderItem::create([
+            'order_id' => $this->order->id,
+            'item_id' => $this->item->id,
+            'quantity' => 2
+        ]);
 
         $this->orderitem->extras()->attach($this->extra);
     }
