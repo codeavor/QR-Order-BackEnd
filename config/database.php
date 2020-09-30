@@ -7,12 +7,13 @@ $env = getenv('APP_ENV');
 
 if ($env == 'production')
 {
-    $url = parse_url(env('DATABASE_URL'));
+    $url = env('DATABASE_URL');
+    $parts = parse_url($url);
 
-    $host = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $database = substr($url["path"], 1);
+    $host = $parts["host"];
+    $username = $parts["user"];
+    $password = $parts["pass"];
+    $database = substr($parts["path"], 1);
 
 }
 
@@ -52,7 +53,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => $url ?: env('DATABASE_URL'),
+            'url' => $parts ?: env('DATABASE_URL'),
             'host' => $host ?: env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => $database ?: env('DB_DATABASE', 'forge'),
