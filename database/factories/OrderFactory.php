@@ -22,7 +22,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'order_complete' => $this->faker->boolean($chanceOfGettingTrue = 10)
+            'order_complete' => $this->faker->boolean($chanceOfGettingTrue = 0)
         ];
     }
 }

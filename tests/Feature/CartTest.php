@@ -61,12 +61,17 @@ class CartTest extends TestCase
              ->assertStatus(200)
              ->assertJson($updatedData);
 
+        $this->json('PUT', route('cart.update', 1000), $updatedData)
+             ->assertStatus(404);
         
     }
 
     public function testDeleteOrderItem()
     {
         $this->json('DELETE', route('cart.destroy', $this->order->id))
-             ->assertNoContent($status = 204);             
+             ->assertNoContent($status = 204);   
+             
+        $this->json('DELETE', route('cart.destroy', 1000))
+             ->assertStatus(404);      
     }
 }
