@@ -27,7 +27,6 @@ class OrderItemTest extends TestCase
         $this->umbrella = Umbrella::factory()->create();
         $this->order = Order::factory()->create();
         $this->umbrella->orders()->save($this->order);
-        $this->item->orders()->attach($this->order, ['quantity' => 2]);
 
         $this->orderitem = OrderItem::create([
             'order_id' => $this->order->id,
