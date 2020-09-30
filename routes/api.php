@@ -18,5 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('menu', 'Menu\MenuController')->except(['create', 'edit', 'update', 'destroy', 'store']);;
+Route::apiResource('menu', 'Menu\MenuController')->only(['index', 'show']);
+Route::apiResource('cart', 'ShoppingCart\CartController')->only(['show', 'update', 'destroy']);
+Route::apiResource('order_item', 'OrderItem\OrderItemController')->only(['update', 'destroy']);
 Route::get('umbrella_{id}', 'Umbrella\UmbrellaController@umbrellaById')->name('specific_umbrella');

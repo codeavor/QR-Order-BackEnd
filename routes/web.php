@@ -23,12 +23,29 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test', function() {
     // Return json with greek characters, for every category show it's items
-    $items = \App\Models\Category::with('Items')->get();
+    //$order = \App\Models\Order::find(1);
+    //$items = $order->items()->get();
     /*
     * For specific category
     * $items = \App\Category::with('Items')->find(1);
     */ 
-    return response()->json($items, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+
+    //$orderitems = \App\Models\OrderItem::find(2);
+    //$extras = $orderitems->extras()->get();
+
+    // $orders = \App\Models\Order::where('id', 1)->with('Items')->get();
+
+    // $orderitems = \App\Models\OrderItem::with('Extras')->get();
+    $orders = \App\Models\Order::select('order_items.id as order_item_id', 'order_items.quantity', 'extras.name as extras', 'extras.price as extra_price','items.name', 'items.price')
+                                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+                                 ->join('items', 'order_items.item_id', '=', 'items.id')
+                                 ->join('order_item_extras', 'order_items.id', '=', 'order_item_extras.order_item_id')
+                                 ->join('extras', 'extras.id', '=', 'order_item_extras.extra_id')
+                                 ->where(['orders.id' => 2, 'orders.order_complete' => false])
+                                 ->get();    
+    $orders = \App\Models\Order::get();                                     
+    $orderitems = \App\Models\OrderItem::with('Extras') ->get();
+    return response()->json($orderitems, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
 });
 
 // Route::get('/test', function() {

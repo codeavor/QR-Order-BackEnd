@@ -23,7 +23,7 @@ class ItemFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'price' => $this->faker->randomNumber(2),            
+            'price' => $this->faker->randomNumber(2)          
         ];
     }
 }

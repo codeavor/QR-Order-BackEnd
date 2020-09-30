@@ -22,7 +22,7 @@ class UmbrellaFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->randomNumber(1),
+            'id' => $this->faker->randomNumber(1)
         ];
     }
 }
