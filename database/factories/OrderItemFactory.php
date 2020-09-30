@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Umbrella;
+use App\Models\OrderItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UmbrellaFactory extends Factory
+class OrderItemFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Umbrella::class;
+    protected $model = OrderItem::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class UmbrellaFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->randomNumber(1)
+            'price' => $this->faker->randomNumber(2)
         ];
     }
 }

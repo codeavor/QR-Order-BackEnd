@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateItemFieldToNullable extends Migration
+class UpdateOrderFieldToNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateItemFieldToNullable extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable()->change();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedInteger('umbrella_id')->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ class UpdateItemFieldToNullable extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->unsignedInteger('category_id')->nullable(false)->change();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedInteger('umbrella_id')->nullable(false)->change();
         });
     }
 }
