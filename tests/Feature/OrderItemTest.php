@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Umbrella;
 use App\Models\Order;
+use App\Models\Extra;
 use App\Models\OrderItem;
 use Tests\TestCase;
 
@@ -68,14 +69,16 @@ class OrderItemTest extends TestCase
 
 	public function testStoreOrderItem()
     {
+        $extra = Extra::factory()->create();
         $data = [
             'item_id' => $this->item->id,
             'order_id' => $this->order->id,
-            'quantity' => 5];
+            'quantity' => 5,
+            'extras_id' => [$extra->id],
+        ];
 
         $this->json('POST', route('order_item.store'),$data)
-        ->assertStatus(201)
-        ->assertJson($data);
+        ->assertStatus(201);
 
     }
 }

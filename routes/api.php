@@ -22,4 +22,4 @@ Route::apiResource('menu', 'Menu\MenuController')->only(['index', 'show']);
 Route::apiResource('cart', 'ShoppingCart\CartController')->only(['show', 'update', 'destroy']);
 Route::apiResource('order_item', 'OrderItem\OrderItemController')->only(['store','update', 'destroy']);
 Route::get('umbrella_{id}', 'Umbrella\UmbrellaController@umbrellaById')->name('specific_umbrella');
-Route::apiResource('order_item_extra', 'OrderItemExtra\OrderItemExtraController')->only(['store']);
+
