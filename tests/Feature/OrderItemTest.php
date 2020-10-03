@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Umbrella;
 use App\Models\Order;
+use App\Models\Extra;
 use App\Models\OrderItem;
 use Tests\TestCase;
 
@@ -16,7 +17,7 @@ class OrderItemTest extends TestCase
     
     use RefreshDatabase;
 
-    protected $category, $item, $umbrella, $order;
+    protected $orderitem, $category, $item, $umbrella, $order;
 
     public function setUp():void
     {
@@ -64,5 +65,20 @@ class OrderItemTest extends TestCase
 
         $this->json('DELETE', route('order_item.destroy', $this->orderitem->id))
              ->assertNoContent($status = 204);           
+    }
+
+	public function testStoreOrderItem()
+    {
+        $extra = Extra::factory()->create();
+        $data = [
+            'item_id' => $this->item->id,
+            'order_id' => $this->order->id,
+            'quantity' => 5,
+            'extras_id' => [$extra->id],
+        ];
+
+        $this->json('POST', route('order_item.store'),$data)
+        ->assertStatus(201);
+
     }
 }

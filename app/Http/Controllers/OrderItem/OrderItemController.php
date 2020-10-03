@@ -5,6 +5,7 @@ namespace App\Http\Controllers\OrderItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderItem;
+use App\Models\Extra;
 
 class OrderItemController extends Controller
 {
@@ -18,16 +19,28 @@ class OrderItemController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $orderItem = OrderItem::create([
+            'item_id' => $data['item_id'],
+            'order_id' => $data['order_id'],
+            'quantity'=> $data['quantity']
+        ]);
+        foreach($data['extras_id'] as $extra_id){
+            $extra = Extra::find($extra_id);
+            $orderItem->extras()->attach($extra);
+        }
+        $orderItemExtras = $orderItem->with('extras')->find($orderItem->id);
+
+        return response()->json($orderItemExtras, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+    }
 
     // /**
     //  * Display the specified resource.

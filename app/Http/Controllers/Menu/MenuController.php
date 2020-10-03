@@ -28,7 +28,7 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $item = Item::find($id);
+        $item = Item::with('Extras')->find($id);
         if (is_null($item)) {
             return response()->json(["message" => "Record not found!"], 404);
         }

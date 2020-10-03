@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Extra;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MenuApiTest extends TestCase
@@ -16,15 +17,17 @@ class MenuApiTest extends TestCase
     {
         $category = Category::factory()->create();
         $item = Item::factory()->create();
+        $extra = Extra::factory()->create();
         $category->items()->save($item);
-
+        $item->extras()->attach($extra);
         $this->get(route('menu.show', $item->id))->assertStatus(200)
         ->assertJson($item->toArray())
         ->assertJsonStructure([
             'id',
             'name',
             'price',
-            'category_id'
+            'category_id',
+            'extras' => ['*' => ['id', 'name', 'price', 'pivot' => ['item_id', 'extra_id']]]
         ]);
         $this->get(route('menu.show', 100))->assertStatus(404);
     }

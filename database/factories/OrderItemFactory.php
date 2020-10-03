@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
+use App\Models\Item;
 use App\Models\OrderItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +24,7 @@ class OrderItemFactory extends Factory
     public function definition()
     {
         return [
-            'price' => $this->faker->randomNumber(2)
+            'quantity' => $this->faker->randomNumber(1),
         ];
     }
 }
