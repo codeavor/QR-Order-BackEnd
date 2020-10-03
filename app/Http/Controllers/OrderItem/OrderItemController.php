@@ -27,13 +27,18 @@ class OrderItemController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $order_item = OrderItem::create([
+        $orderItem = OrderItem::create([
             'item_id' => $data['item_id'],
             'order_id' => $data['order_id'],
             'quantity'=> $data['quantity']
         ]);
+        foreach($data['extras_id'] as $extra_id){
+            $extra = Extra::find($extra_id);
+            $orderItem->extras()->attach($extra);
+        }
+        $orderItemExtras = $orderItem->with('extras')->find($orderItem->id);
 
-        return response()->json($order_item, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        return response()->json($orderItemExtras, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     // /**
