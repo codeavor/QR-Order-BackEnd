@@ -16,7 +16,7 @@ class OrderItemTest extends TestCase
     
     use RefreshDatabase;
 
-    protected $category, $item, $umbrella, $order;
+    protected $orderitem, $category, $item, $umbrella, $order;
 
     public function setUp():void
     {
@@ -64,5 +64,18 @@ class OrderItemTest extends TestCase
 
         $this->json('DELETE', route('order_item.destroy', $this->orderitem->id))
              ->assertNoContent($status = 204);           
+    }
+
+	public function testStoreOrderItem()
+    {
+        $data = [
+            'item_id' => $this->item->id,
+            'order_id' => $this->order->id,
+            'quantity' => 5];
+
+        $this->json('POST', route('order_item.store'),$data)
+        ->assertStatus(201)
+        ->assertJson($data);
+
     }
 }

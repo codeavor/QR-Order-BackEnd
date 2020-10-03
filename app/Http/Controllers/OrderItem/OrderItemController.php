@@ -18,16 +18,23 @@ class OrderItemController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $order_item = OrderItem::create([
+            'item_id' => $data['item_id'],
+            'order_id' => $data['order_id'],
+            'quantity'=> $data['quantity']
+        ]);
+
+        return response()->json($order_item, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+    }
 
     // /**
     //  * Display the specified resource.
