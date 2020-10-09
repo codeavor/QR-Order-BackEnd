@@ -20,4 +20,9 @@ class Umbrella extends Model
     {
         return $this->hasMany('App\Models\Order');
     }
+
+    public function userType()
+    {
+        return $this->hasOne('App\Models\UserType');
+    }
 }
