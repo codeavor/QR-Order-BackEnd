@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
-use Illuminate\Support\Str;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class OrderFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Order::class;
+    protected $model = Role::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +22,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'order_complete' => $this->faker->boolean($chanceOfGettingTrue = 0),
-            'remember_token' => Str::random(10),
+            'name' => $this->faker->name
         ];
     }
 }

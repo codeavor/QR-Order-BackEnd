@@ -13,7 +13,14 @@ class Order extends Model
     public $timestamps = true;
 
     // Field that has to be filled
-    protected $fillable = ['order_complete'];
+    protected $fillable = ['order_complete','remember_token'];
+
+     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['remember_token'];
 
     // One to Many relation, one order has one umbrella, one umbrella has many orders
     public function umbrella()
