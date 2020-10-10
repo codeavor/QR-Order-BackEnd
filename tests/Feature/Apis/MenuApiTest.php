@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Apis;
 
 use Tests\TestCase;
 use App\Models\Category;
@@ -47,6 +47,5 @@ class MenuApiTest extends TestCase
             'items' => ['*' => ['id', 'name', 'price', 'category_id']]
         ]])
         ->assertStatus(200);
-
     }
 }

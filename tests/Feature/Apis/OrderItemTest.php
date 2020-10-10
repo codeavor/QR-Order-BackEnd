@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Apis;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Category;
 use App\Models\Item;
-use App\Models\Umbrella;
+use App\Models\Role;
+use App\Models\UserType;
 use App\Models\Order;
 use App\Models\Extra;
 use App\Models\OrderItem;
@@ -17,7 +18,7 @@ class OrderItemTest extends TestCase
     
     use RefreshDatabase;
 
-    protected $orderitem, $category, $item, $umbrella, $order;
+    protected $orderItem, $category, $item, $role, $userType, $order;
 
     public function setUp():void
     {
@@ -25,11 +26,14 @@ class OrderItemTest extends TestCase
         $this->category = Category::factory()->create();
         $this->item = Item::factory()->create();
         $this->category->items()->save($this->item);
-        $this->umbrella = Umbrella::factory()->create();
         $this->order = Order::factory()->create();
-        $this->umbrella->orders()->save($this->order);
+        $this->role = Role::factory()->create();
+        $this->userType = new UserType;
+        $this->role->userTypes()->save($this->userType);
 
-        $this->orderitem = OrderItem::create([
+        $this->userType->orders()->save($this->order);
+
+        $this->orderItem = OrderItem::create([
             'order_id' => $this->order->id,
             'item_id' => $this->item->id,
             'quantity' => 2
@@ -42,7 +46,7 @@ class OrderItemTest extends TestCase
             'quantity' => 1
         ];
 
-        $this->json('PUT', route('order_item.update', $this->orderitem->id), $updatedData)
+        $this->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
              ->assertStatus(200)
              ->assertJson($updatedData);
 
@@ -54,7 +58,7 @@ class OrderItemTest extends TestCase
             'quantity' => 0
         ];
 
-        $this->json('PUT', route('order_item.update', $this->orderitem->id), $updatedData)
+        $this->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
              ->assertStatus(403);
     }
 
@@ -63,7 +67,7 @@ class OrderItemTest extends TestCase
         $this->json('DELETE', route('order_item.destroy', 1000))
              ->assertStatus(404); 
 
-        $this->json('DELETE', route('order_item.destroy', $this->orderitem->id))
+        $this->json('DELETE', route('order_item.destroy', $this->orderItem->id))
              ->assertNoContent($status = 204);           
     }
 
@@ -79,6 +83,5 @@ class OrderItemTest extends TestCase
 
         $this->json('POST', route('order_item.store'),$data)
         ->assertStatus(201);
-
     }
 }

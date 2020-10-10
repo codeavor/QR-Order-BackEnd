@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTokenToOrderTable extends Migration
+class DropUmbrellaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTokenToOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->rememberToken();
+        Schema::table('umbrellas', function (Blueprint $table) {
+            Schema::dropIfExists('umbrellas');
         });
     }
 
@@ -25,8 +25,8 @@ class AddTokenToOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('remember_token');
+        Schema::table('umbrellas', function (Blueprint $table) {
+            //
         });
     }
 }

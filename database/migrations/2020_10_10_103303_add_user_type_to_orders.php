@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateOrderFieldToNullable extends Migration
+class AddUserTypeToOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class UpdateOrderFieldToNullable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedInteger('umbrella_id')->nullable()->change();
+            $table->unsignedBigInteger('user_type_id')->nullable();
+            $table->foreign('user_type_id')->references('id')->on('user_types')->onDelete('set null');
         });
     }
 
@@ -26,7 +27,8 @@ class UpdateOrderFieldToNullable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedInteger('umbrella_id')->nullable(false)->change();
+            $table->dropForeign(['user_type_id']);
+            $table->dropColumn('user_type_id');
         });
     }
 }

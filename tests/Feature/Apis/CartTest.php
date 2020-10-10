@@ -1,22 +1,24 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Apis;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Category;
 use App\Models\Item;
-use App\Models\Umbrella;
 use App\Models\Order;
+use App\Models\Role;
+use App\Models\UserType;
 use App\Models\OrderItem;
 use App\Models\Extra;
 use Tests\TestCase;
 
 class CartTest extends TestCase
 {
+    
     use RefreshDatabase;
 
-    protected $category, $item, $umbrella, $order;
+    protected $category, $item, $role, $userType, $orderItem, $order;
 
     public function setUp():void
     {
@@ -25,15 +27,15 @@ class CartTest extends TestCase
         $this->category = Category::factory()->create();
         $this->item = Item::factory()->create();
         $this->category->items()->save($this->item);
-        $this->umbrella = Umbrella::factory()->create();
         $this->order = Order::factory()->create();
-        $this->umbrella->orders()->save($this->order);
+        $this->role = Role::factory()->create();
         $this->item->orders()->attach($this->order, ['quantity' => 2]);
         $this->extra->items()->attach($this->item);
-
-        $this->orderitem = OrderItem::where('order_id', $this->order->id)->first();
-
-        $this->orderitem->extras()->attach($this->extra);
+        $this->userType = new UserType;
+        $this->role->userTypes()->save($this->userType);
+        $this->userType->orders()->save($this->order);
+        $this->orderItem = OrderItem::where('order_id', $this->order->id)->first();
+        $this->orderItem->extras()->attach($this->extra);
     }
 
     public function testShowCart()

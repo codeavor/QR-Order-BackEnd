@@ -13,19 +13,12 @@ class Order extends Model
     public $timestamps = true;
 
     // Field that has to be filled
-    protected $fillable = ['order_complete','remember_token'];
+    protected $fillable = ['order_complete', 'umbrella_id'];
 
-     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = ['remember_token'];
-
-    // One to Many relation, one order has one umbrella, one umbrella has many orders
-    public function umbrella()
+    // One to Many relation, one order has one user, one user has many orders
+    public function userType()
     {
-        return $this->belongsTo('App\Models\Umbrella');
+        return $this->belongsTo('App\Models\UserType');
     }
 
     // Many to Many relation, one item has many orders, one order has many items
