@@ -16,7 +16,7 @@ class Extra extends Model
     protected $fillable = ['name', 'price'];
     
     // Many to Many relation, one order item has many extras, one extra has many order items
-    public function order_items()
+    public function orderItems()
     {
         return $this->belongsToMany('App\Models\OrderItem', 'order_item_extras');
     }

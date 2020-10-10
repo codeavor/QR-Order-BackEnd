@@ -17,8 +17,6 @@ class CreateUserTypesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
-            $table->unsignedInteger('umbrella_id')->nullable();
-            $table->foreign('umbrella_id')->references('id')->on('umbrellas')->onDelete('cascade');
         });
     }
 

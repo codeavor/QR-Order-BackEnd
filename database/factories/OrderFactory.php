@@ -24,7 +24,7 @@ class OrderFactory extends Factory
     {
         return [
             'order_complete' => $this->faker->boolean($chanceOfGettingTrue = 0),
-            'remember_token' => Str::random(10),
+            'umbrella_id' => $this->faker->randomNumber(2),
         ];
     }
 }

@@ -17,9 +17,9 @@ class UserType extends Model
         return $this->belongsTo('App\Models\Role');
     }
 
-    public function umbrella()
+    public function orders()
     {
-        return $this->belongsTo('App\Models\UserType');
+        return $this->hasMany('App\Models\Order');
     }
 
 }

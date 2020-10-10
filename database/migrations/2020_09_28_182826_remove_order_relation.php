@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateOrderOnDelete extends Migration
+class RemoveOrderRelation extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class UpdateOrderOnDelete extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign(['umbrella_id']);
-            $table->foreign('umbrella_id')->references('id')->on('umbrellas')->onDelete('set null');
         });
     }
 
@@ -26,9 +25,6 @@ class UpdateOrderOnDelete extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['umbrella_id']);
-            $table->foreign('umbrella_id')->references('id')->on('umbrellas');
-        });
+        //
     }
 }
