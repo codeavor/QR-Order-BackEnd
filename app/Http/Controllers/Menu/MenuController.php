@@ -9,6 +9,12 @@ use App\Models\Item;
 
 class MenuController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth.role:customer,admin',['only'=>['index']]);
+    // }
+
+
     /**
      * Display a listing of the resource.
      *
