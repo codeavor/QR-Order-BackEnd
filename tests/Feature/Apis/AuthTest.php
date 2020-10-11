@@ -22,15 +22,19 @@ class AuthTest extends TestCase
 
         fwrite(STDERR, print_r($data, TRUE));
 
-        $this->json('POST', route('register'),$data)
+        $this->json('POST', route('api_register'),$data)
         ->assertStatus(201);
 
+        $role_id = $role->id + 1;
+
         $data = [
-            'role_id'=> 100
+            'role_id'=> $role_id
         ];
 
-        $this->json('POST', route('register'),$data)
-        ->assertStatus(400);
+        fwrite(STDERR, print_r($data, TRUE));
+
+        $this->json('POST', route('api_register'),$data)
+        ->assertStatus(401);
 
     }
 
@@ -45,15 +49,21 @@ class AuthTest extends TestCase
             'id'=> $userType->id
         ];
 
-        $this->json('POST', route('login'),$data)
+        fwrite(STDERR, print_r($data, TRUE));
+
+        $this->json('POST', route('api_login'),$data)
         ->assertStatus(200);
 
+        $id = $userType->id + 1;
+
         $data = [
-            'id'=> $userType->id
+            'id'=> $id
         ];
 
-        $this->json('POST', route('login'),$data)
-        ->assertStatus(400);
+        fwrite(STDERR, print_r($data, TRUE));
+
+        $this->json('POST', route('api_login'),$data)
+        ->assertStatus(500);
 
         
     }

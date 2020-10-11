@@ -55,9 +55,9 @@ class AuthController extends Controller
                 return response()->json(['error' => 'could_not_create_token'], 500);
             }
             
-            return response()->json(compact('token'));
+            return response()->json(compact('token'), 201);
         }
-        return response()->json(['error'=>'Invalid Login Details'], 400);
+        return response()->json(['error'=>'Invalid Login Details'], 401);
     }
     
 }
