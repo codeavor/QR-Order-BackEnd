@@ -6,34 +6,58 @@ use Illuminate\Http\Request;
 use App\Models\UserType;
 use App\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
         $credentials = $request->input(['id']);
         $user = UserType::where('id', '=', $credentials)->first();
   
-        if (!$token = JWTAuth::fromUser($user)) {
-            return response('Invalid Login Details', 400)
-                ->header('Content-Type', 'text/plain');
+        try {
+            if (! $token = JWTAuth::fromUser($user)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        return response($token, 200)
-                ->header('Content-Type', 'text/plain');
+
+        return response()->json(compact('token'));
     }
 
     public function register(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+
         $role = Role::find($request->input(['role_id']));
         if($role){
             $userType = new UserType;
             $userType->role()->associate($role)->save();
-            $token = JWTAuth::fromUser($userType);
-            return response($token, 201)
-                    ->header('Content-Type', 'text/plain');
+            try { 
+                $token = JWTAuth::fromUser($userType);
+
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+            
+            return response()->json(compact('token'));
         }
-        return response('Invalid Role id', 400)
-        ->header('Content-Type', 'text/plain');
+        return response()->json(['error'=>'Invalid Login Details'], 400);
     }
     
 }

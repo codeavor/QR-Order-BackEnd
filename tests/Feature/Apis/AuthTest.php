@@ -15,18 +15,23 @@ class AuthTest extends TestCase
     public function testRegister()
     {
         $role =  Role::factory()->create();
+        
         $data = [
-            'role_id'=> $role->id,
+            'role_id' => $role->id
         ];
 
-        $response = $this->post(route('register'),$data, ['Accept' => 'text/plain'])
+        fwrite(STDERR, print_r($data, TRUE));
+
+        $this->json('POST', route('register'),$data)
         ->assertStatus(201);
+
         $data = [
-            'role_id'=> 100,
+            'role_id'=> 100
         ];
 
-        $response = $this->post(route('register'),$data, ['Accept' => 'text/plain'])
+        $this->json('POST', route('register'),$data)
         ->assertStatus(400);
+
     }
 
     public function testLogin()
@@ -37,17 +42,17 @@ class AuthTest extends TestCase
         $userType->role()->associate($role)->save();
 
         $data = [
-            'id'=> $userType->id,
+            'id'=> $userType->id
         ];
 
-        $response = $this->post(route('login'),$data, ['Accept' => 'text/plain'])
+        $this->json('POST', route('login'),$data)
         ->assertStatus(200);
 
         $data = [
-            'id'=> $userType->id,
+            'id'=> $userType->id
         ];
 
-        $response = $this->post(route('login'),$data, ['Accept' => 'text/plain'])
+        $this->json('POST', route('login'),$data)
         ->assertStatus(400);
 
         
