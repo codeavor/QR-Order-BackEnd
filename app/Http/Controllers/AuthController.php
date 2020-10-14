@@ -16,6 +16,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
@@ -39,11 +40,11 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'role_id' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-
-
+        
         $role = Role::find($request->input(['role_id']));
         if($role){
             $userType = new UserType;
@@ -58,6 +59,21 @@ class AuthController extends Controller
             return response()->json(compact('token'), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
+    }
+
+    // Refresh Token 
+    public function getToken(Request $request)
+     {
+        $token = JWTAuth::parseToken();
+        if(!$token){
+            throw new BadRequestHtttpException('Token not provided');
+        }
+        try{
+            $refreshedToken = JWTAuth::refresh($token);
+        }catch(JWTException $e){
+            return response()->json(['Error' => 'could_not_refresh_token'], 500);
+        }
+        return response()->json(compact('refreshedToken'), 201);
     }
     
 }

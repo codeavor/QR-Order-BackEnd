@@ -23,5 +23,6 @@ Route::apiResource('cart', 'ShoppingCart\CartController')->only(['show', 'update
 Route::apiResource('order_item', 'OrderItem\OrderItemController')->only(['store','update', 'destroy']);
 Route::post('auth/login', ['uses' => 'AuthController@login', 'as' => 'api_login']);
 Route::post('auth/register', ['uses' => 'AuthController@register', 'as' => 'api_register']);
+Route::post('auth/refresh', ['uses' => 'AuthController@getToken', 'as' => 'api_refresh']);
 //Route::get('umbrella_{id}', 'Umbrella\UmbrellaController@umbrellaById')->name('specific_umbrella');
 

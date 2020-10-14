@@ -4,7 +4,9 @@ namespace Tests\Feature\Apis;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tests\TestCase;
+use Illuminate\Http\Request;
 use App\Models\UserType;
 use App\Models\Role;
 
@@ -20,7 +22,7 @@ class AuthTest extends TestCase
             'role_id' => $role->id
         ];
 
-        fwrite(STDERR, print_r($data, TRUE));
+       // fwrite(STDERR, print_r($data, TRUE));
 
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(201);
@@ -31,7 +33,7 @@ class AuthTest extends TestCase
             'role_id'=> $role_id
         ];
 
-        fwrite(STDERR, print_r($data, TRUE));
+        //fwrite(STDERR, print_r($data, TRUE));
 
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(401);
@@ -49,7 +51,7 @@ class AuthTest extends TestCase
             'id'=> $userType->id
         ];
 
-        fwrite(STDERR, print_r($data, TRUE));
+        //fwrite(STDERR, print_r($data, TRUE));
 
         $this->json('POST', route('api_login'),$data)
         ->assertStatus(200);
@@ -60,11 +62,34 @@ class AuthTest extends TestCase
             'id'=> $id
         ];
 
-        fwrite(STDERR, print_r($data, TRUE));
+        //fwrite(STDERR, print_r($data, TRUE));
 
         $this->json('POST', route('api_login'),$data)
         ->assertStatus(500);
 
         
+    }
+
+    public function testGetToken()
+    {
+
+        try { 
+            $role =  Role::factory()->create();
+            $userType = new UserType;
+            $userType->role()->associate($role)->save();
+            $token = JWTAuth::fromUser($userType);
+        } catch (JWTException $e) {
+            return 'could_not_create_token';
+        }
+       
+        // $header = [
+        //     'Authorization' => $token,
+        // ];
+
+        fwrite(STDERR, print_r($userType, TRUE));
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token])->json('POST', '/api/auth/refresh')
+        ->assertStatus(201);
+
     }
 }
