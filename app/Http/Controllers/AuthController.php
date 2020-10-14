@@ -25,7 +25,7 @@ class AuthController extends Controller
         $user = UserType::where('id', '=', $credentials)->first();
   
         try {
-            if (! $token = JWTAuth::fromUser($user)) {
+            if (!$token = JWTAuth::fromUser($user)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
         } catch (JWTException $e) {
@@ -51,7 +51,6 @@ class AuthController extends Controller
             $userType->role()->associate($role)->save();
             try { 
                 $token = JWTAuth::fromUser($userType);
-
             } catch (JWTException $e) {
                 return response()->json(['error' => 'could_not_create_token'], 500);
             }
@@ -64,8 +63,7 @@ class AuthController extends Controller
     // Refresh Token 
     public function getToken(Request $request)
      {
-        $token = JWTAuth::parseToken();
-        if(!$token){
+        if(!$token = JWTAuth::parseToken()){
             throw new BadRequestHtttpException('Token not provided');
         }
         try{

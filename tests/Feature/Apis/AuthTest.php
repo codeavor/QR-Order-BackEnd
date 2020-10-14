@@ -33,8 +33,6 @@ class AuthTest extends TestCase
             'role_id'=> $role_id
         ];
 
-        //fwrite(STDERR, print_r($data, TRUE));
-
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(401);
 
@@ -51,8 +49,6 @@ class AuthTest extends TestCase
             'id'=> $userType->id
         ];
 
-        //fwrite(STDERR, print_r($data, TRUE));
-
         $this->json('POST', route('api_login'),$data)
         ->assertStatus(200);
 
@@ -62,12 +58,8 @@ class AuthTest extends TestCase
             'id'=> $id
         ];
 
-        //fwrite(STDERR, print_r($data, TRUE));
-
         $this->json('POST', route('api_login'),$data)
-        ->assertStatus(500);
-
-        
+        ->assertStatus(500);        
     }
 
     public function testGetToken()
@@ -82,14 +74,7 @@ class AuthTest extends TestCase
             return 'could_not_create_token';
         }
        
-        // $header = [
-        //     'Authorization' => $token,
-        // ];
-
-        fwrite(STDERR, print_r($userType, TRUE));
-
-        $this->withHeaders(['Authorization' => 'Bearer ' . $token])->json('POST', '/api/auth/refresh')
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token])->json('POST', route('api_refresh'))
         ->assertStatus(201);
-
     }
 }
