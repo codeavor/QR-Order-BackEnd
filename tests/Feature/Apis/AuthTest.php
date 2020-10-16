@@ -19,7 +19,8 @@ class AuthTest extends TestCase
         $role =  Role::factory()->create();
         
         $data = [
-            'role_id' => $role->id
+            'role_name' => $role->name,
+            'umbrella_id' => 2
         ];
 
        // fwrite(STDERR, print_r($data, TRUE));
@@ -27,15 +28,28 @@ class AuthTest extends TestCase
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(201);
 
-        $role_id = $role->id + 1;
-
         $data = [
-            'role_id'=> $role_id
+            'role_name'=> '',
+            'umbrella_id' => 1
         ];
 
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(401);
 
+        $data = [
+            'role_name'=> $role->name,
+        ];
+
+        $this->json('POST', route('api_register'),$data)
+        ->assertStatus(401);
+
+        $data = [
+            'role_name'=> 'assdsd',
+            'umbrella_id' => 1
+        ];
+
+        $this->json('POST', route('api_register'),$data)
+        ->assertStatus(401);
     }
 
     public function testLogin()
