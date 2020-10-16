@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserType;
 use App\Models\Role;
+use App\Models\Order;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 
@@ -38,14 +39,15 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'role_id' => 'required',
+            'role_name' => 'required',
+            'umbrella_id' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 401);
         }
         
-        $role = Role::find($request->input(['role_id']));
+        $role = Role::where('name', $request->input(['role_name']))->first();
         if($role){
             $userType = new UserType;
             $userType->role()->associate($role)->save();
@@ -54,8 +56,15 @@ class AuthController extends Controller
             } catch (JWTException $e) {
                 return response()->json(['error' => 'could_not_create_token'], 500);
             }
-            
-            return response()->json(compact('token'), 201);
+
+            $order = Order::create([
+                'umbrella_id' => $request->input(['umbrella_id']),
+                'order_complete' => false
+            ]);
+            $order->userType()->associate($userType);
+            $order->save();
+
+            return response()->json(compact(['token', 'order']), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }
