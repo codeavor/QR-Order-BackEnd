@@ -64,7 +64,9 @@ class AuthController extends Controller
             $order->userType()->associate($userType);
             $order->save();
 
-            return response()->json(compact(['token', 'order']), 201);
+            $orderId = $order->id;
+
+            return response()->json(compact(['token', 'orderId']), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }
