@@ -18,7 +18,7 @@ class CartTest extends TestCase
     
     use RefreshDatabase;
 
-    protected $category, $item, $role, $userType, $orderItem, $order;
+    protected $category, $item, $role, $userType, $orderItem, $order, $token;
 
     public function setUp():void
     {
@@ -36,11 +36,13 @@ class CartTest extends TestCase
         $this->userType->orders()->save($this->order);
         $this->orderItem = OrderItem::where('order_id', $this->order->id)->first();
         $this->orderItem->extras()->attach($this->extra);
+        $this->token = auth()->login($this->userType);
+        $this->category = Category::factory()->create();
     }
 
     public function testShowCart()
     {
-        $this->get(route('cart.show', $this->order->id))->assertStatus(200)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', $this->order->id))->assertStatus(200)
         ->assertJsonStructure([[
             'order_item_id',
             'quantity',
@@ -50,7 +52,13 @@ class CartTest extends TestCase
             'price'
         ]]);
 
-        $this->get(route('cart.show', 100))->assertStatus(404);
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', 100))->assertStatus(404);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('GET', route('cart.show', $this->order->id))
+        ->assertStatus(401);
+
+        $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('GET', route('cart.show', $this->order->id))
+        ->assertStatus(401);
     }
 
     public function testUpdateCart()
@@ -59,21 +67,33 @@ class CartTest extends TestCase
             'order_complete' => true
         ];
 
-        $this->json('PUT', route('cart.update', $this->order->id), $updatedData)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('cart.update', $this->order->id), $updatedData)
              ->assertStatus(200)
              ->assertJson($updatedData);
 
-        $this->json('PUT', route('cart.update', 1000), $updatedData)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('cart.update', 1000), $updatedData)
              ->assertStatus(404);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('PUT', route('cart.update', $this->order->id), $updatedData)
+        ->assertStatus(401);
+
+        $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('PUT', route('cart.update',  $this->order->id), $updatedData)
+        ->assertStatus(401);             
         
     }
 
     public function testDeleteOrderItem()
     {
-        $this->json('DELETE', route('cart.destroy', $this->order->id))
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('DELETE', route('cart.destroy', $this->order->id))
              ->assertNoContent($status = 204);   
              
-        $this->json('DELETE', route('cart.destroy', 1000))
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('DELETE', route('cart.destroy', 1000))
              ->assertStatus(404);      
+
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('DELETE', route('cart.destroy', $this->order->id))
+             ->assertStatus(401);
+     
+        $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('DELETE', route('cart.destroy', $this->order->id))
+             ->assertStatus(401);        
     }
 }

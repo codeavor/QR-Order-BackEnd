@@ -25,12 +25,20 @@ class AuthController extends Controller
         $credentials = $request->input(['id']);
         $user = UserType::where('id', '=', $credentials)->first();
   
-        try {
-            if (!$token = JWTAuth::fromUser($user)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-        } catch (JWTException $e) {
+        // try {
+        //     if (!$token = JWTAuth::fromUser($user)) {
+        //         return response()->json(['error' => 'invalid_credentials'], 401);
+        //     }
+        // } catch (JWTException $e) {
+        //     return response()->json(['error' => 'could_not_create_token'], 500);
+        // }
+
+        if (!$user) {
             return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+
+        if (! $token = auth()->login($user)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return response()->json(compact('token'));
@@ -51,11 +59,12 @@ class AuthController extends Controller
         if($role){
             $userType = new UserType;
             $userType->role()->associate($role)->save();
-            try { 
-                $token = JWTAuth::fromUser($userType);
-            } catch (JWTException $e) {
-                return response()->json(['error' => 'could_not_create_token'], 500);
-            }
+            // try { 
+            //     $token = JWTAuth::fromUser($userType);
+            // } catch (JWTException $e) {
+            //     return response()->json(['error' => 'could_not_create_token'], 500);
+            // }
+            $token = auth()->login($userType);
 
             $order = Order::create([
                 'umbrella_id' => $request->input(['umbrella_id']),
@@ -64,13 +73,15 @@ class AuthController extends Controller
             $order->userType()->associate($userType);
             $order->save();
 
-            return response()->json(compact(['token', 'order']), 201);
+            $orderId = $order->id;
+
+            return response()->json(compact(['token', 'orderId']), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }
 
     // Refresh Token 
-    public function getToken(Request $request)
+    public function getToken()
      {
         if(!$token = JWTAuth::parseToken()){
             throw new BadRequestHtttpException('Token not provided');
@@ -78,9 +89,16 @@ class AuthController extends Controller
         try{
             $refreshedToken = JWTAuth::refresh($token);
         }catch(JWTException $e){
-            return response()->json(['Error' => 'could_not_refresh_token'], 500);
+            return response()->json(['error' => 'could_not_refresh_token'], 500);
         }
         return response()->json(compact('refreshedToken'), 201);
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
     
 }

@@ -18,7 +18,7 @@ class OrderItemTest extends TestCase
     
     use RefreshDatabase;
 
-    protected $orderItem, $category, $item, $role, $userType, $order;
+    protected $orderItem, $category, $item, $role, $userType, $order, $token;
 
     public function setUp():void
     {
@@ -32,6 +32,7 @@ class OrderItemTest extends TestCase
         $this->role->userTypes()->save($this->userType);
 
         $this->userType->orders()->save($this->order);
+        $this->token = auth()->login($this->userType);
 
         $this->orderItem = OrderItem::create([
             'order_id' => $this->order->id,
@@ -46,29 +47,42 @@ class OrderItemTest extends TestCase
             'quantity' => 1
         ];
 
-        $this->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
              ->assertStatus(200)
              ->assertJson($updatedData);
 
 
-        $this->json('PUT', route('order_item.update', 1000), $updatedData)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('order_item.update', 1000), $updatedData)
              ->assertStatus(404);
 
         $updatedData = [
             'quantity' => 0
         ];
 
-        $this->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
              ->assertStatus(403);
+
+
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
+            ->assertStatus(401);
+
+        $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('PUT', route('order_item.update', $this->orderItem->id), $updatedData)
+            ->assertStatus(401);
     }
 
     public function testDeleteOrderItem()
     {                               
-        $this->json('DELETE', route('order_item.destroy', 1000))
-             ->assertStatus(404); 
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('DELETE', route('order_item.destroy', 1000))
+            ->assertStatus(404); 
 
-        $this->json('DELETE', route('order_item.destroy', $this->orderItem->id))
-             ->assertNoContent($status = 204);           
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('DELETE', route('order_item.destroy', $this->orderItem->id))
+            ->assertNoContent($status = 204);         
+             
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('DELETE', route('order_item.destroy', $this->orderItem->id))
+            ->assertStatus(401);
+     
+        $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('DELETE', route('order_item.destroy', $this->orderItem->id))
+            ->assertStatus(401);     
     }
 
 	public function testStoreOrderItem()
@@ -81,7 +95,13 @@ class OrderItemTest extends TestCase
             'extras_id' => [$extra->id],
         ];
 
-        $this->json('POST', route('order_item.store'),$data)
-        ->assertStatus(201);
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('POST', route('order_item.store'),$data)
+            ->assertStatus(201);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' ])->json('POST', route('order_item.store'),$data)
+            ->assertStatus(401);
+
+         $this->withHeaders(['Authorization' => 'Bearer aklsdjflaksjdf;laksdfnigga' ])->json('POST', route('order_item.store'),$data)
+            ->assertStatus(401);     
     }
 }
