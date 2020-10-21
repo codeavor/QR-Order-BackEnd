@@ -26,7 +26,11 @@ class AuthTest extends TestCase
        // fwrite(STDERR, print_r($data, TRUE));
 
         $this->json('POST', route('api_register'),$data)
-        ->assertStatus(201);
+        ->assertStatus(201)
+        ->assertJsonStructure([
+            'token',
+            'orderId'
+        ]);
 
         $data = [
             'role_name'=> '',
@@ -49,7 +53,10 @@ class AuthTest extends TestCase
         ];
 
         $this->json('POST', route('api_register'),$data)
-        ->assertStatus(401);
+        ->assertStatus(401)
+        ->assertJsonStructure([
+            'error'
+        ]);
     }
 
     public function testLogin()
@@ -64,7 +71,10 @@ class AuthTest extends TestCase
         ];
 
         $this->json('POST', route('api_login'),$data)
-        ->assertStatus(200);
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'token'
+        ]);
 
         $id = $userType->id + 1;
 
@@ -73,22 +83,38 @@ class AuthTest extends TestCase
         ];
 
         $this->json('POST', route('api_login'),$data)
-        ->assertStatus(500);        
+        ->assertStatus(500)
+        ->assertJsonStructure([
+            'error'
+        ]);        
     }
 
     public function testGetToken()
     {
 
-        try { 
-            $role =  Role::factory()->create();
-            $userType = new UserType;
-            $userType->role()->associate($role)->save();
-            $token = JWTAuth::fromUser($userType);
-        } catch (JWTException $e) {
-            return 'could_not_create_token';
-        }
-       
+        $role =  Role::factory()->create();
+        $userType = new UserType;
+        $userType->role()->associate($role)->save();
+        $token = auth()->login($userType);
+
         $this->withHeaders(['Authorization' => 'Bearer ' . $token])->json('POST', route('api_refresh'))
-        ->assertStatus(201);
+        ->assertStatus(201)
+        ->assertJsonStructure([
+            'refreshedToken'
+        ]);
+    }
+
+    public function testLogout()
+    {
+        $role =  Role::factory()->create();
+        $userType = new UserType;
+        $userType->role()->associate($role)->save();
+        $token = auth()->login($userType);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token])->json('POST', route('api_logout'))
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'message'
+        ]);
     }
 }

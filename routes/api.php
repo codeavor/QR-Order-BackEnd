@@ -23,5 +23,6 @@ Route::middleware('auth.role:customer')->apiResource('cart', 'ShoppingCart\CartC
 Route::middleware('auth.role:customer')->apiResource('order_item', 'OrderItem\OrderItemController')->only(['store','update', 'destroy']);
 Route::post('auth/login', ['uses' => 'AuthController@login', 'as' => 'api_login']);
 Route::post('auth/register', ['uses' => 'AuthController@register', 'as' => 'api_register']);
+Route::post('auth/logout', ['uses' => 'AuthController@logout', 'as' => 'api_logout']);
 Route::middleware('auth.role:service')->post('auth/refresh', ['uses' => 'AuthController@getToken', 'as' => 'api_refresh']);
 
