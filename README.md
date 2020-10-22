@@ -1,3 +1,4 @@
+
 # QR Order API
 
 ![Tests](https://github.com/codeavor/QR-Order-BackEnd/workflows/Test/badge.svg)
@@ -24,232 +25,286 @@
 -   In xampp start only the Apache Module
 -   Create your migration files as usual and run migration
 
-## Endpoints
+## API Endpoints
 
--   GET:
-    -   api/menu
-        ````
-        Headers:
+- [GET](#get)
+    - [api/menu](#get-apimenu)
+    - [api/menu/{item_id}](#get-apimenuitem_id)
+    - [api/cart/{order_id}](#get-apicartorder_id)
+- [POST](#post)
+    - [api/order_item](#post-apiorder_item)
+    - [api/auth/login](#post-apiauthlogin)
+    - [api/auth/register](#post-apiauthregister)
+    - [api/auth/logout](#post-apiauthlogout)
+    - [api/auth/refresh](#post-apiauthrefresh)
+- [PUT](#put)
+    - [api/cart/{order_id}](#put-apicartorder_id)
+    - [api/order_item/{order_item_id}](#put-apiorder_itemorder_item_id)
+- [DELETE](#delete)
+    - [api/order_item/{order_item_id}](#delete-apiorder_itemorder_item_id)
+    - [api/cart/{order_id}](#delete-apicartorder_id)
+
+___
+
+### GET
+
+#### GET api/menu
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+{
+    [
         {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Response:
-        {
+            "id",
+            "name",
+            "description",
+            "items" => 
             [
                 {
                     "id",
                     "name",
-                    "description",
-                    "items" => 
-                    [
-                        {
-                            "id",
-                            "name",
-                            "price",
-                            "category_id"
-                        }
-                    ]
+                    "price",
+                    "category_id"
                 }
             ]
         }
-        ````
-    -   api/menu/{item_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Response:
+    ]
+}
+````
+[Back to top](#api-endpoints)
+
+#### GET api/menu/{item_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+{
+    "id",
+    "name",
+    "price",
+    "category_id",
+    "extras" => 
+    [
         {
             "id",
             "name",
             "price",
-            "category_id",
-            "extras" => 
-            [
-                {
-                    "id",
-                    "name",
-                    "price",
-                    "pivot" =>
-                    {
-                        "item_id",
-                        "extra_id
-                    }
-                }
-            ]
-        }
-        ````
-    -   api/cart/{order_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Response:
-        [
+            "pivot" =>
             {
-                "order_item_id",
-                "quantity",
-                "extras",
-                "extras_price",
-                "name",
-                "price"
+                "item_id",
+                "extra_id
             }
-        ]
-        ````
--   POST:
-    -   api/order_item
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
         }
-        
-        Body:
+    ]
+}
+````
+[Back to top](#api-endpoints)
+
+#### GET api/cart/{order_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+[
+    {
+        "order_item_id",
+        "quantity",
+        "extras",
+        "extras_price",
+        "name",
+        "price"
+    }
+]
+````
+[Back to top](#api-endpoints)
+
+___
+
+### POST
+
+#### POST api/order_item
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Body:
+{
+    "order_id",
+    "item_id",
+    "quantity",
+    "extras_id": [
         {
-            "order_id",
-            "item_id",
-            "quantity",
-            "extras_id": [
-                {
-                    "extra_id",
-                }
-            ]
+            "extra_id",
         }
-        
-        Response:
-        {
-            "id",
-            "order_id",
-            "item_id",
-            "quantity",
-            "extras" => 
-            [
-                {
-                    "id",
-                    "name",
-                    "price",
-                    "pivot" =>
-                    {
-                        "item_id",
-                        "extra_id
-                    }
-                }
-            ]
-        }
-        ````
-    -   api/auth/login
-        ````
-        Body:
-        {
-            "id (του userType)"
-        }
-        
-        Response:
-        {
-            "token"
-        }
-        ````
-    -   api/auth/register
-        ````
-        Body:
-        {
-            "role_name",
-            "umbrella_id"
-        }
-        
-        Response:
-        {
-            "token",
-            "orderId
-        }
-        ````
-    -   api/auth/logout
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Response:
-        {
-            "message"
-        }
-        ````
-    -   api/auth/refresh
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Response:
-        {
-            "refreshedToken"
-        }
-        ````
--   PUT:
-    -   api/cart/{order_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Params:
-        {
-            "ο,τι πρεπει να αλλαξεις"
-        }
-        
-        Response:
+    ]
+}
+
+Response:
+{
+    "id",
+    "order_id",
+    "item_id",
+    "quantity",
+    "extras" => 
+    [
         {
             "id",
-            "umbrella_id",
-            "created_at",
-            "updated_at",
-            "order_complete",
-            "user_type_id"
+            "name",
+            "price",
+            "pivot" =>
+            {
+                "item_id",
+                "extra_id
+            }
         }
-        ````
-    -   api/order_item/{order_item_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        
-        Params:
-        {
-            "ο,τι πρεπει να αλλαξεις"
-        }
-        
-        Response:
-        {
-            "id",
-            "order_id",
-            "item_id",
-            "quantity"
-        }
-        ````
--   DELETE:
-    -   api/order_item/{order_item_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        ````
-    -   api/cart/{order_id}
-        ````
-        Headers:
-        {
-            'Authorization' : 'Bearer ' token
-        }
-        ````
+    ]
+}
+````
+[Back to top](#api-endpoints)
+
+#### POST api/auth/login
+````
+Body:
+{
+    "id (του userType)"
+}
+
+Response:
+{
+    "token"
+}
+````
+[Back to top](#api-endpoints)
+
+#### POST api/auth/register
+````
+Body:
+{
+    "role_name",
+    "umbrella_id"
+}
+
+Response:
+{
+    "token",
+    "orderId
+}
+````
+[Back to top](#api-endpoints)
+
+#### POST api/auth/logout
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+{
+    "message"
+}
+````
+[Back to top](#api-endpoints)
+
+#### POST api/auth/refresh
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+{
+    "refreshedToken"
+}
+````
+[Back to top](#api-endpoints)
+
+___
+
+### PUT
+
+#### PUT api/cart/{order_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Params:
+{
+    "ο,τι πρεπει να αλλαξεις"
+}
+
+Response:
+{
+    "id",
+    "umbrella_id",
+    "created_at",
+    "updated_at",
+    "order_complete",
+    "user_type_id"
+}
+````
+[Back to top](#api-endpoints)
+
+#### PUT api/order_item/{order_item_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Params:
+{
+    "ο,τι πρεπει να αλλαξεις"
+}
+
+Response:
+{
+    "id",
+    "order_id",
+    "item_id",
+    "quantity"
+}
+````
+[Back to top](#api-endpoints)
+
+___
+
+### DELETE
+
+#### DELETE api/order_item/{order_item_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+````
+[Back to top](#api-endpoints)
+
+#### DELETE api/cart/{order_id}
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+````
+[Back to top](#api-endpoints)
+___
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
