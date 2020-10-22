@@ -24,7 +24,232 @@
 -   In xampp start only the Apache Module
 -   Create your migration files as usual and run migration
 
+## Endpoints
 
+-   GET:
+    -   api/menu
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Response:
+        {
+            [
+                {
+                    "id",
+                    "name",
+                    "description",
+                    "items" => 
+                    [
+                        {
+                            "id",
+                            "name",
+                            "price",
+                            "category_id"
+                        }
+                    ]
+                }
+            ]
+        }
+        ````
+    -   api/menu/{item_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Response:
+        {
+            "id",
+            "name",
+            "price",
+            "category_id",
+            "extras" => 
+            [
+                {
+                    "id",
+                    "name",
+                    "price",
+                    "pivot" =>
+                    {
+                        "item_id",
+                        "extra_id
+                    }
+                }
+            ]
+        }
+        ````
+    -   api/cart/{order_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Response:
+        [
+            {
+                "order_item_id",
+                "quantity",
+                "extras",
+                "extras_price",
+                "name",
+                "price"
+            }
+        ]
+        ````
+-   POST:
+    -   api/order_item
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Body:
+        {
+            "order_id",
+            "item_id",
+            "quantity",
+            "extras_id": [
+                {
+                    "extra_id",
+                }
+            ]
+        }
+        
+        Response:
+        {
+            "id",
+            "order_id",
+            "item_id",
+            "quantity",
+            "extras" => 
+            [
+                {
+                    "id",
+                    "name",
+                    "price",
+                    "pivot" =>
+                    {
+                        "item_id",
+                        "extra_id
+                    }
+                }
+            ]
+        }
+        ````
+    -   api/auth/login
+        ````
+        Body:
+        {
+            "id (του userType)"
+        }
+        
+        Response:
+        {
+            "token"
+        }
+        ````
+    -   api/auth/register
+        ````
+        Body:
+        {
+            "role_name",
+            "umbrella_id"
+        }
+        
+        Response:
+        {
+            "token",
+            "orderId
+        }
+        ````
+    -   api/auth/logout
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Response:
+        {
+            "message"
+        }
+        ````
+    -   api/auth/refresh
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Response:
+        {
+            "refreshedToken"
+        }
+        ````
+-   PUT:
+    -   api/cart/{order_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Params:
+        {
+            "ο,τι πρεπει να αλλαξεις"
+        }
+        
+        Response:
+        {
+            "id",
+            "umbrella_id",
+            "created_at",
+            "updated_at",
+            "order_complete",
+            "user_type_id"
+        }
+        ````
+    -   api/order_item/{order_item_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        
+        Params:
+        {
+            "ο,τι πρεπει να αλλαξεις"
+        }
+        
+        Response:
+        {
+            "id",
+            "order_id",
+            "item_id",
+            "quantity"
+        }
+        ````
+-   DELETE:
+    -   api/order_item/{order_item_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        ````
+    -   api/cart/{order_id}
+        ````
+        Headers:
+        {
+            'Authorization' : 'Bearer ' token
+        }
+        ````
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
