@@ -35,8 +35,7 @@ class MenuApiTest extends TestCase
     }
 
     public function testShowItem()
-    {
-       
+    {       
         $item = Item::factory()->create();
         $extra = Extra::factory()->create();
         $this->category->items()->save($item);
