@@ -25,7 +25,7 @@ class CartController extends Controller
                                  ->get();
 
         if (is_null($order) || $order->count() == 0) {
-            return response()->json(["message" => "Record not found!"], 404);
+            return response()->json(["error" => "Record not found!"], 404);
         }
 
         return response()->json($order, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
@@ -42,7 +42,7 @@ class CartController extends Controller
     {
         $order = Order::find($id);
         if (is_null($order)) {
-            return response()->json(["message" => "Record not found!"], 404);
+            return response()->json(["error" => "Record not found!"], 404);
         }
         $order->update($request->all());
 
@@ -59,7 +59,7 @@ class CartController extends Controller
     // {
     //     $order = Order::find($id);
     //     if (is_null($order)) {
-    //         return response()->json(["message" => "Record not found!"], 404);
+    //         return response()->json(["error" => "Record not found!"], 404);
     //     }
     //     $order->delete();
 

@@ -51,17 +51,17 @@ class OrderItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $orderitem = OrderItem::find($id);
+        $orderItem = OrderItem::find($id);
         $data = $request->all();
-        if (is_null($orderitem)) {
-            return response()->json(["message" => "Record not found!"], 404);
+        if (is_null($orderItem)) {
+            return response()->json(["error" => "Record not found!"], 404);
         }
         else if ($data['quantity'] <= 0){
-            return response()->json(["message" => "Quantity has to be at least 1!"], 403);
+            return response()->json(["error" => "Quantity has to be at least 1!"], 403);
         }
-        $orderitem->update($request->all());
+        $orderItem->update($request->all());
 
-        return response()->json($orderitem, 200);
+        return redirect()->route('cart.show', $orderItem->order_id);
     }
 
     /**
@@ -72,12 +72,13 @@ class OrderItemController extends Controller
      */
     public function destroy($id)
     {
-        $orderitem = OrderItem::find($id);
-        if (is_null($orderitem)) {
-            return response()->json(["message" => "Record not found!"], 404);
+        $orderItem = OrderItem::find($id);
+        if (is_null($orderItem)) {
+            return response()->json(["error" => "Record not found!"], 404);
         }
-        $orderitem->delete();
+        $orderId = $orderItem->order_id;
+        $orderItem->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('cart.show', $orderId);
     }
 }

@@ -66,12 +66,11 @@ class MenuApiTest extends TestCase
 
     public function testShowMenu()
     {
-
         $items = Item::factory()->count(3)->create();
         $this->category->items()->saveMany($items);
 
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('menu.index'))
-        ->assertJson( $this->category->with('Items')->get()->toArray())
+        ->assertJson($this->category->with('Items')->get()->toArray())
         ->assertJsonStructure([[
             'id',
             'name',
