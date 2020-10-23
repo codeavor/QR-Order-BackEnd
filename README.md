@@ -274,10 +274,12 @@ Params:
 
 Response:
 {
-    "id",
-    "order_id",
-    "item_id",
-    "quantity"
+    "order_item_id",
+    "quantity",
+    "extras",
+    "extras_price",
+    "name",
+    "price"
 }
 ````
 [Back to top](#api-endpoints)
@@ -292,17 +294,19 @@ Headers:
 {
     'Authorization' : 'Bearer ' token
 }
-````
-[Back to top](#api-endpoints)
 
-#### DELETE api/cart/{order_id}
-````
-Headers:
+Response:
 {
-    'Authorization' : 'Bearer ' token
+    "order_item_id",
+    "quantity",
+    "extras",
+    "extras_price",
+    "name",
+    "price"
 }
 ````
 [Back to top](#api-endpoints)
+
 ___
 
 ## License

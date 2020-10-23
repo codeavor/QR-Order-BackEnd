@@ -8,27 +8,6 @@ use App\Models\Order;
 
 class CartController extends Controller
 {
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
-
     /**
      * Display the specified resource.
      *
@@ -46,7 +25,7 @@ class CartController extends Controller
                                  ->get();
 
         if (is_null($order) || $order->count() == 0) {
-            return response()->json(["message" => "Record not found!"], 404);
+            return response()->json(["error" => "Record not found!"], 404);
         }
 
         return response()->json($order, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
@@ -63,27 +42,27 @@ class CartController extends Controller
     {
         $order = Order::find($id);
         if (is_null($order)) {
-            return response()->json(["message" => "Record not found!"], 404);
+            return response()->json(["error" => "Record not found!"], 404);
         }
         $order->update($request->all());
 
         return response()->json($order, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $order = Order::find($id);
-        if (is_null($order)) {
-            return response()->json(["message" => "Record not found!"], 404);
-        }
-        $order->delete();
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     $order = Order::find($id);
+    //     if (is_null($order)) {
+    //         return response()->json(["error" => "Record not found!"], 404);
+    //     }
+    //     $order->delete();
 
-        return response()->json(null, 204);
-    }
+    //     return response()->json(null, 204);
+    // }
 }
