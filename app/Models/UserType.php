@@ -19,9 +19,9 @@ class UserType extends Authenticatable implements JWTSubject
         return $this->belongsTo('App\Models\Role');
     }
 
-    public function orders()
+    public function order()
     {
-        return $this->hasMany('App\Models\Order');
+        return $this->hasOne('App\Models\Order');
     }
 
     public function getJWTIdentifier()

@@ -15,7 +15,7 @@ class Order extends Model
     // Field that has to be filled
     protected $fillable = ['order_complete', 'umbrella_id'];
 
-    // One to Many relation, one order has one user, one user has many orders
+    // One to One relation, one order has one user, one user has one orders
     public function userType()
     {
         return $this->belongsTo('App\Models\UserType');

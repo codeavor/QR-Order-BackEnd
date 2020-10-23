@@ -8,27 +8,6 @@ use App\Models\Order;
 
 class CartController extends Controller
 {
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
-
     /**
      * Display the specified resource.
      *
@@ -70,20 +49,20 @@ class CartController extends Controller
         return response()->json($order, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $order = Order::find($id);
-        if (is_null($order)) {
-            return response()->json(["message" => "Record not found!"], 404);
-        }
-        $order->delete();
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     $order = Order::find($id);
+    //     if (is_null($order)) {
+    //         return response()->json(["message" => "Record not found!"], 404);
+    //     }
+    //     $order->delete();
 
-        return response()->json(null, 204);
-    }
+    //     return response()->json(null, 204);
+    // }
 }

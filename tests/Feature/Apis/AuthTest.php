@@ -45,7 +45,10 @@ class AuthTest extends TestCase
         ];
 
         $this->json('POST', route('api_register'),$data)
-        ->assertStatus(401);
+        ->assertStatus(401)
+        ->assertJsonStructure([
+            'error'
+        ]);
 
         $data = [
             'role_name'=> 'assdsd',
@@ -63,7 +66,6 @@ class AuthTest extends TestCase
     {
         $role =  Role::factory()->create();
         $userType = new UserType;
-
         $userType->role()->associate($role)->save();
 
         $data = [
@@ -86,7 +88,15 @@ class AuthTest extends TestCase
         ->assertStatus(500)
         ->assertJsonStructure([
             'error'
-        ]);        
+        ]);  
+        
+        $data = [];
+
+        $this->json('POST', route('api_login'),$data)
+        ->assertStatus(401)
+        ->assertJsonStructure([
+            'error'
+        ]);  
     }
 
     public function testGetToken()

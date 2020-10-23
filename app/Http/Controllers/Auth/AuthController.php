@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserType;
 use App\Models\Role;
@@ -19,7 +20,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json(['error' => $validator->errors()], 401);
         }
 
         $credentials = $request->input(['id']);
@@ -37,9 +38,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        if (! $token = auth()->login($user)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        $token = auth()->login($user);
 
         return response()->json(compact('token'));
     }
@@ -52,7 +51,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 401);
+            return response()->json(['error' => $validator->errors()], 401);
         }
         
         $role = Role::where('name', $request->input(['role_name']))->first();

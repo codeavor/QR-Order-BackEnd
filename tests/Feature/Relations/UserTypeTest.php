@@ -21,15 +21,14 @@ class UserTypeTest extends TestCase
         $userType = new UserType;
 
         $userType->role()->associate($role)->save();
-        $userType->orders()->save($order);
+        $userType->order()->save($order);
 
         // Tests for role relation one to many
         $this->assertInstanceOf(Role::class,$userType->role);
         $this->assertEquals(1,$userType->role->count());
 
-        //  Tests for order relation one to many
-        $this->assertTrue($userType->orders->contains($order));
-        $this->assertEquals(1, $userType->orders->count());
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $userType->orders);
+        //  Tests for order relation one to one
+        $this->assertInstanceOf(Order::class,$userType->order);
+        $this->assertEquals(1, $userType->order->count());
     }
 }
