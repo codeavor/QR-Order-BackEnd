@@ -229,10 +229,12 @@
         
         Response:
         {
-            "id",
-            "order_id",
-            "item_id",
-            "quantity"
+            "order_item_id",
+            "quantity",
+            "extras",
+            "extras_price",
+            "name",
+            "price"
         }
         ````
 -   DELETE:
@@ -242,12 +244,15 @@
         {
             'Authorization' : 'Bearer ' token
         }
-        ````
-    -   api/cart/{order_id}
-        ````
-        Headers:
+        
+        Response:
         {
-            'Authorization' : 'Bearer ' token
+            "order_item_id",
+            "quantity",
+            "extras",
+            "extras_price",
+            "name",
+            "price"
         }
         ````
 ## License
