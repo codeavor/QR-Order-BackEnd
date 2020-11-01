@@ -49,6 +49,7 @@ ___
 ### GET
 
 #### GET api/menu
+Used to get the menu.
 ````
 Headers:
 {
@@ -78,6 +79,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### GET api/menu/{item_id}
+Get a specific item's info.
 ````
 Headers:
 {
@@ -108,6 +110,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### GET api/cart/{order_id}
+Get the cart.
 ````
 Headers:
 {
@@ -133,6 +136,7 @@ ___
 ### POST
 
 #### POST api/order_item
+Create new orderItem and add it to my cart.
 ````
 Headers:
 {
@@ -175,6 +179,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### POST api/auth/login
+Not used.
 ````
 Body:
 {
@@ -189,6 +194,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### POST api/auth/register
+Used to connect with backend (get jwt).
 ````
 Body:
 {
@@ -205,6 +211,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### POST api/auth/logout
+Used to logout.
 ````
 Headers:
 {
@@ -219,6 +226,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### POST api/auth/refresh
+Not used.
 ````
 Headers:
 {
@@ -237,6 +245,7 @@ ___
 ### PUT
 
 #### PUT api/cart/{order_id}
+To mark an order as complete.
 ````
 Headers:
 {
@@ -245,7 +254,7 @@ Headers:
 
 Params:
 {
-    "ο,τι πρεπει να αλλαξεις"
+    "order_complete": true
 }
 
 Response:
@@ -261,6 +270,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### PUT api/order_item/{order_item_id}
+To change quantity of an order item.
 ````
 Headers:
 {
@@ -269,7 +279,7 @@ Headers:
 
 Params:
 {
-    "ο,τι πρεπει να αλλαξεις"
+    "quantity": 2
 }
 
 Response:
@@ -289,6 +299,7 @@ ___
 ### DELETE
 
 #### DELETE api/order_item/{order_item_id}
+To delete an orderItem.
 ````
 Headers:
 {
