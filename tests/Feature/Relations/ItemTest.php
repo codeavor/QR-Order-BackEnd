@@ -7,8 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\Category;
-use App\Models\Order;
-use App\Models\Extra;
 
 class ItemTest extends TestCase
 {
@@ -19,8 +17,6 @@ class ItemTest extends TestCase
     {
         $item = Item::factory()->create();
         $category = Category::factory()->create();
-        $order = Order::factory()->create();
-        $extra = Extra::factory()->create();
 
         $item->category()->associate($category)->save();
 
@@ -31,7 +27,7 @@ class ItemTest extends TestCase
         // Tests for order relation Many to Many
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $item->orders); 
 
-        // Tests for extra relation Many to Many
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $item->extras);
+        // Tests for extraCategory relation Many to Many
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $item->extra_categories);
     }
 }

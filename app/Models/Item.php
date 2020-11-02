@@ -27,9 +27,9 @@ class Item extends Model
         return $this->belongsToMany('App\Models\Order', 'order_items')->withPivot('quantity');
     }
 
-    // Many to Many relation, one item has many extras, one extra has many items
-    public function extras()
+    // Many to Many relation, one item has many orders, one order has many items
+    public function extra_categories()
     {
-        return $this->belongsToMany('App\Models\Extra', 'item_extras');
+        return $this->belongsToMany('App\Models\ExtraCategory', 'item_extra_categories');
     }
 }

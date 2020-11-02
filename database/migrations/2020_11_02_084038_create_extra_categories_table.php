@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateItemFieldToNullable extends Migration
+class CreateExtraCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class UpdateItemFieldToNullable extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable()->change();
+        Schema::create('extra_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->enum('type', ['checkBox', 'radioButton']);
         });
     }
 
@@ -25,8 +27,6 @@ class UpdateItemFieldToNullable extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable(false)->change();
-        });
+        Schema::dropIfExists('extra_categories');
     }
 }
