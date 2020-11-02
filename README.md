@@ -283,14 +283,16 @@ Params:
 }
 
 Response:
-{
-    "order_item_id",
-    "quantity",
-    "extras",
-    "extras_price",
-    "name",
-    "price"
-}
+[
+    {
+        "order_item_id",
+        "quantity",
+        "extras",
+        "extras_price",
+        "name",
+        "price"
+    }
+]
 ````
 [Back to top](#api-endpoints)
 
@@ -307,14 +309,16 @@ Headers:
 }
 
 Response:
-{
-    "order_item_id",
-    "quantity",
-    "extras",
-    "extras_price",
-    "name",
-    "price"
-}
+[
+    {
+        "order_item_id",
+        "quantity",
+        "extras",
+        "extras_price",
+        "name",
+        "price"
+    }
+]
 ````
 [Back to top](#api-endpoints)
 

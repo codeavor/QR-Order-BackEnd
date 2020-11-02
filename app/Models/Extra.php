@@ -21,9 +21,9 @@ class Extra extends Model
         return $this->belongsToMany('App\Models\OrderItem', 'order_item_extras');
     }
 
-    // Many to Many relation, one item has many extras, one extra has many items
-    public function items()
+    // Many to Many relation, one extra has many categories, one category has many extras
+    public function extra_categories()
     {
-        return $this->belongsToMany('App\Models\Item', 'item_extras');
+        return $this->belongsToMany('App\Models\ExtraCategory', 'extra_category_extras');
     }
 }

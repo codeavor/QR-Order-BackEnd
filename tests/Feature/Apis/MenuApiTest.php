@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Extra;
+use App\Models\ExtraCategory;
 use App\Models\UserType;
 use App\Models\Role;
 
@@ -38,8 +39,10 @@ class MenuApiTest extends TestCase
     {       
         $item = Item::factory()->create();
         $extra = Extra::factory()->create();
+        $extraCategory = ExtraCategory::factory()->create();
         $this->category->items()->save($item);
-        $item->extras()->attach($extra);
+        $item->extra_categories()->attach($extraCategory);
+        $extra->extra_categories()->attach($extraCategory);
 
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('menu.show', $item->id))
         ->assertStatus(200)
@@ -49,7 +52,20 @@ class MenuApiTest extends TestCase
             'name',
             'price',
             'category_id',
-            'extras' => ['*' => ['id', 'name', 'price', 'pivot' => ['item_id', 'extra_id']]]
+            'extra_categories' => [
+                '*' => [
+                    'id', 'name', 'type', 'pivot' => [
+                        'item_id', 'extra_category_id'
+                    ], 
+                    'extras' => [
+                        '*' => [
+                            'id', 'name', 'price', 'pivot' => [
+                                'extra_category_id', 'extra_id'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         ]);
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('menu.show', 100))->assertStatus(404);
 

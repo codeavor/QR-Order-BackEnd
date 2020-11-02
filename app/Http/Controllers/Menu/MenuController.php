@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\ExtraCategory;
 
 class MenuController extends Controller
 {
@@ -28,7 +29,8 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $item = Item::with('Extras')->find($id);
+        $item = Item::with('extra_categories.extras')->find($id);
+
         if (is_null($item)) {
             return response()->json(["error" => "Record not found!"], 404);
         }

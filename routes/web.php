@@ -22,6 +22,155 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test', function() {
+    DB::statement('ALTER SEQUENCE extra_categories_id_seq RESTART WITH 1');
+    DB::statement('ALTER SEQUENCE item_extra_categories_id_seq RESTART WITH 1');
+    //Freddo Espresso
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε ζάχαρη',
+        'type' => 'radioButton'
+    ]);
+    $item = \App\Models\Item::find(2);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(1);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(2);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(3);
+    $extra->extra_categories()->attach($extra_category);
+
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε είδος ζάχαρης',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(4);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(5);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(6);    
+    $extra->extra_categories()->attach($extra_category);
+    
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Προσθέστε',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(9);    
+    $extra->extra_categories()->attach($extra_category);
+    
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Προσθέστε extra',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(10);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(11);    
+    $extra->extra_categories()->attach($extra_category);
+
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλογή',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(12);    
+    $extra->extra_categories()->attach($extra_category);
+
+    //Espresso
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε μέγεθος',
+        'type' => 'radioButton'
+    ]);
+    $item = \App\Models\Item::find(1);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(7);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(8);
+    $extra->extra_categories()->attach($extra_category);
+
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε ζάχαρη',
+        'type' => 'radioButton'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(1);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(2);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(3);
+    $extra->extra_categories()->attach($extra_category);
+
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε είδος ζάχαρης',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(4);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(5);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(6);    
+    $extra->extra_categories()->attach($extra_category);
+    
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Προσθέστε',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(9);    
+    $extra->extra_categories()->attach($extra_category);
+    
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Προσθέστε extra',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(10);    
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(11);    
+    $extra->extra_categories()->attach($extra_category);
+
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλογή',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(12);    
+    $extra->extra_categories()->attach($extra_category);
+
+    //Σοκολάτα
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Επιλέξτε',
+        'type' => 'radioButton'
+    ]);
+    $item = \App\Models\Item::find(8);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(13);
+    $extra->extra_categories()->attach($extra_category);
+    $extra = \App\Models\Extra::find(14);
+    $extra->extra_categories()->attach($extra_category);
+    
+    $extra_category = \App\Models\ExtraCategory::create([
+        'name' => 'Προσθέστε extra',
+        'type' => 'checkBox'
+    ]);
+    $item->extra_categories()->attach($extra_category);
+
+    $extra = \App\Models\Extra::find(10);    
+    $extra->extra_categories()->attach($extra_category);
+
     // Return json with greek characters, for every category show it's items
     //$order = \App\Models\Order::find(1);
     //$items = $order->items()->get();
