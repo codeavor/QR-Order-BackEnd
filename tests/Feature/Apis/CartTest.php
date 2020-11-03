@@ -61,7 +61,7 @@ class CartTest extends TestCase
             'price'
         ]]);
 
-        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', 100))->assertStatus(404);
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', 100))->assertStatus(200)->assertJson([]);
 
         $this->withHeaders(['Authorization' => 'Bearer ' ])->json('GET', route('cart.show', $this->order->id))
         ->assertStatus(401);
