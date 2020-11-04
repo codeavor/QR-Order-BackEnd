@@ -51,7 +51,7 @@ class OrderItemController extends Controller
         }
         $orderItem->update($request->all());
 
-        return redirect()->route('cart.show', $orderItem->order_id);
+        return redirect()->route('cart.show', $orderItem->order_id)->setStatusCode(303);
     }
 
     /**
@@ -69,6 +69,6 @@ class OrderItemController extends Controller
         $orderId = $orderItem->order_id;
         $orderItem->delete();
 
-        return redirect()->route('cart.show', $orderId);
+        return redirect()->route('cart.show', $orderId)->setStatusCode(303);
     }
 }
