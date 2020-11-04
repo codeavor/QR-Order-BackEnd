@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderItem;
 use App\Models\Extra;
+use App\Http\Controllers\ShoppingCart\CartController;
+use App\Traits\CartTrait;
 
-class OrderItemController extends Controller
+class OrderItemController extends CartController
 {
+    use CartTrait;
+
     /**
      * Store a newly created resource in storage.
      *
@@ -28,7 +32,6 @@ class OrderItemController extends Controller
             $orderItem->extras()->attach($extra);
         }
         $orderItemExtras = $orderItem->with('extras')->find($orderItem->id);
-
         return response()->json($orderItemExtras, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
     
@@ -51,7 +54,8 @@ class OrderItemController extends Controller
         }
         $orderItem->update($request->all());
 
-        return redirect()->route('cart.show', $orderItem->order_id)->setStatusCode(303);
+        return response()->json($this->showCart($orderItem->order_id), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        // return redirect()->route('cart.show', $orderItem->order_id)->setStatusCode(303);
     }
 
     /**
@@ -69,6 +73,9 @@ class OrderItemController extends Controller
         $orderId = $orderItem->order_id;
         $orderItem->delete();
 
-        return redirect()->route('cart.show', $orderId)->setStatusCode(303);
+        $this->showCart($orderId);
+        return response()->json($this->showCart($orderId), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+
+        // return redirect()->route('cart.show', $orderId)->setStatusCode(303);
     }
 }
