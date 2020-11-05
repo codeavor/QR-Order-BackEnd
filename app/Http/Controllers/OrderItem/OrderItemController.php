@@ -55,7 +55,6 @@ class OrderItemController extends CartController
         $orderItem->update($request->all());
 
         return response()->json($this->showCart($orderItem->order_id), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
-        // return redirect()->route('cart.show', $orderItem->order_id)->setStatusCode(303);
     }
 
     /**
@@ -73,9 +72,6 @@ class OrderItemController extends CartController
         $orderId = $orderItem->order_id;
         $orderItem->delete();
 
-        $this->showCart($orderId);
         return response()->json($this->showCart($orderId), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
-
-        // return redirect()->route('cart.show', $orderId)->setStatusCode(303);
     }
 }
