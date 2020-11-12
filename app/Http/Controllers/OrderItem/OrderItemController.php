@@ -27,10 +27,18 @@ class OrderItemController extends CartController
             'order_id' => $data['order_id'],
             'quantity'=> $data['quantity']
         ]);
-        foreach($data['extras_id'] as $extra_id){
-            $extra = Extra::find($extra_id);
+
+        if (sizeof($data['extras_id']) <= 0) {
+            $extra = Extra::find(0);
             $orderItem->extras()->attach($extra);
         }
+        else {
+            foreach($data['extras_id'] as $extra_id){
+                $extra = Extra::find($extra_id);
+                $orderItem->extras()->attach($extra);
+            }
+        }
+
         $orderItemExtras = $orderItem->with('extras')->find($orderItem->id);
         return response()->json($orderItemExtras, 201, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
