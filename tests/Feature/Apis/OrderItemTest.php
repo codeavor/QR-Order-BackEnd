@@ -117,6 +117,15 @@ class OrderItemTest extends TestCase
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('POST', route('order_item.store'),$data2)
         ->assertStatus(201);
 
+        $data3 = [
+            'item_id' => $this->item->id,
+            'order_id' => $this->order->id,
+            'extras_id' => [$extra->id],
+        ];
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('POST', route('order_item.store'),$data3)
+        ->assertStatus(406);
+
         $this->withHeaders(['Authorization' => 'Bearer ' ])->json('POST', route('order_item.store'),$data)
         ->assertStatus(401);
 

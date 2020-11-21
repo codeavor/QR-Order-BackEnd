@@ -22,12 +22,16 @@ class OrderItemController extends CartController
     public function store(Request $request)
     {
         $data = $request->all();
-        $orderItem = OrderItem::create([
-            'item_id' => $data['item_id'],
-            'order_id' => $data['order_id'],
-            'quantity'=> $data['quantity']
-        ]);
-
+        try {
+            $orderItem = OrderItem::create([
+                'item_id' => $data['item_id'],
+                'order_id' => $data['order_id'],
+                'quantity'=> $data['quantity']
+            ]);    
+        } catch (\Exception $exception) {
+            return response()->json(["error" => "Record not created successfully!"], 406);
+        }
+        
         if (sizeof($data['extras_id']) <= 0) {
             $extra = Extra::find(0);
             $orderItem->extras()->attach($extra);
