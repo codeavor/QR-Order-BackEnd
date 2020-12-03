@@ -28,7 +28,7 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)  
     {
         $order = Order::find($id);
         if (is_null($order)) {
@@ -36,7 +36,7 @@ class CartController extends Controller
         }
         $order->update($request->all());
 
-        return response()->json($order, 200);
+        return response()->json($this->deleteUserType($id,$request), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     // /**
