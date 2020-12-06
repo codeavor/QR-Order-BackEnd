@@ -35,7 +35,6 @@ class CartController extends Controller
             return response()->json(["error" => "Record not found!"], 404);
         }
         $order->update($request->all());
-
         return response()->json($this->deleteUserType($id,$request), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 

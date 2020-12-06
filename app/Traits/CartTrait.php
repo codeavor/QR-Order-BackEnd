@@ -16,8 +16,7 @@ trait CartTrait {
                                  ->get();
 
         if (is_null($order) || $order->count() == 0) {
-            return [];
-        }
+            return [];}
         return $order;
     }
     public function deleteUserType($id,$request)
