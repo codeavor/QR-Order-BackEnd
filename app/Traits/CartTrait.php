@@ -12,7 +12,7 @@ trait CartTrait {
                                  ->join('items', 'order_items.item_id', '=', 'items.id')
                                  ->join('order_item_extras', 'order_items.id', '=', 'order_item_extras.order_item_id')
                                  ->join('extras', 'extras.id', '=', 'order_item_extras.extra_id')
-                                 ->where(['orders.id' => $id, 'orders.order_complete' => false])
+                                 ->where(['orders.id' => $id, 'orders.order_complete' => 'sent'])
                                  ->get();
 
         if (is_null($order) || $order->count() == 0) {
@@ -22,7 +22,7 @@ trait CartTrait {
     public function deleteUserType($id,$request)
     {
         $order = Order::find($id);
-        if($request->order_complete){
+        if($request->order_complete === 'completed'){
             $userType = $order->userType();
             $userType->delete();
         }

@@ -67,7 +67,7 @@ class AuthController extends Controller
 
             $order = Order::create([
                 'umbrella_id' => $request->input(['umbrella_id']),
-                'order_complete' => false
+                'order_complete' => 'sent'
             ]);
             $order->userType()->associate($userType);
             $order->save();

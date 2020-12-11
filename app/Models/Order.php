@@ -13,7 +13,7 @@ class Order extends Model
     public $timestamps = true;
 
     // Field that has to be filled
-    protected $fillable = ['order_complete', 'umbrella_id'];
+    protected $fillable = ['order_complete', 'umbrella_id']; /**na alaxi to bool se enum */
 
     // One to One relation, one order has one user, one user has one orders
     public function userType()
