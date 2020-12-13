@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateItemsTableNotesDescription extends Migration
+class UpdateExtrasTablePrice extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateItemsTableNotesDescription extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->string('description')->nullable();
+        Schema::table('extras', function (Blueprint $table) {
+            $table->float('price')->nullable(false)->default(0)->change(); 
         });
     }
 
@@ -25,8 +25,8 @@ class UpdateItemsTableNotesDescription extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('description');
+        Schema::table('extras', function (Blueprint $table) {
+            $table->float('price')->nullable()->change();
         });
     }
 }

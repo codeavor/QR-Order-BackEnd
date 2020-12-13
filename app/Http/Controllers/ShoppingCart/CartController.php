@@ -21,23 +21,6 @@ class CartController extends Controller
         return response()->json($this->showCart($id), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() /** edo epistreuei teis parageleies stin kouzina */
-    {
-        $finorder = collect();
-        $orders = Order::with('Items')->get();
-        foreach($orders as $order){
-            if($order->order_complete != 'completed'){
-                $finorder->push($order);
-            }
-        }
-        return response()->json($finorder->all(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -49,26 +32,8 @@ class CartController extends Controller
     {
         $order = Order::find($id);
         if (is_null($order)) {
-            return response()->json(["rror" => "Record not found!"], 404);
+            return response()->json(["Error" => "Record not found!"], 404);
         }
-        $order->update($request->all());
         return response()->json($this->deleteUserType($id,$request), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     $order = Order::find($id);
-    //     if (is_null($order)) {
-    //         return response()->json(["error" => "Record not found!"], 404);
-    //     }
-    //     $order->delete();
-
-    //     return response()->json(null, 204);
-    // }
 }

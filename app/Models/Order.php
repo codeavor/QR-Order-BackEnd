@@ -13,7 +13,7 @@ class Order extends Model
     public $timestamps = true;
 
     // Field that has to be filled
-    protected $fillable = ['order_complete', 'umbrella_id']; /**na alaxi to bool se enum */
+    protected $fillable = ['order_complete', 'umbrella_id']; 
 
     // One to One relation, one order has one user, one user has one orders
     public function userType()
@@ -24,6 +24,6 @@ class Order extends Model
     // Many to Many relation, one item has many orders, one order has many items
     public function items()
     {
-        return $this->belongsToMany('App\Models\Item', 'order_items')->withPivot('quantity');
+        return $this->belongsToMany('App\Models\Item', 'order_items')->withPivot('quantity','notes');
     }
 }

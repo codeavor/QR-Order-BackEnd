@@ -3,26 +3,30 @@
 namespace App\Traits;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 
 trait CartTrait {
     public function showCart($id) 
     {
-        $order = Order::select('order_items.id as order_item_id', 'order_items.quantity', 'extras.name as extras', 'extras.price as extra_price','items.name', 'items.price')
-                                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                                 ->join('items', 'order_items.item_id', '=', 'items.id')
-                                 ->join('order_item_extras', 'order_items.id', '=', 'order_item_extras.order_item_id')
-                                 ->join('extras', 'extras.id', '=', 'order_item_extras.extra_id')
-                                 ->where(['orders.id' => $id, 'orders.order_complete' => 'sent'])
-                                 ->get();
+        $cart = collect();
+        $order = Order::find($id);
+        $items = $order->items;
+        foreach($items as $item){
+            $cart->push(OrderItem::with('extras')->find($item->pivot->item_id));
+        }
 
-        if (is_null($order) || $order->count() == 0) {
-            return [];}
-        return $order;
+        if (is_null($cart) || $cart->count() == 0 || $order->order_complete !== 'not_sent') {
+            return [];
+        }
+
+        return $cart->all();
     }
     public function deleteUserType($id,$request)
     {
         $order = Order::find($id);
-        if($request->order_complete === 'completed'){
+
+        if($request->order_complete === 'sent' && $order->order_complete === 'not_sent'){
+            $order->update($request->all());
             $userType = $order->userType();
             $userType->delete();
         }

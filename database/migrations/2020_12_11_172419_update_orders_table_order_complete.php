@@ -13,10 +13,12 @@ class UpdateOrdersTableOrderComplete extends Migration
      */
     public function up()
     {
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('order_complete');
+        });
        
         Schema::table('orders', function (Blueprint $table) {
-
-            $table->enum('order_complete', ['sent', 'processed', 'completed']);
+            $table->enum('order_complete', ['not_sent','sent', 'processed', 'completed'])->default('not_sent');
         });
     }
 
@@ -28,7 +30,7 @@ class UpdateOrdersTableOrderComplete extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('order_complete');
+            $table->boolean('order_complete')->default(false)->change();
         });
     }
 }
