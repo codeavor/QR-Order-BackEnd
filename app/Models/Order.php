@@ -24,6 +24,6 @@ class Order extends Model
     // Many to Many relation, one item has many orders, one order has many items
     public function items()
     {
-        return $this->belongsToMany('App\Models\Item', 'order_items')->withPivot('quantity','notes');
+        return $this->belongsToMany('App\Models\Item', 'order_items')->withPivot('order_id', 'item_id', 'quantity', 'notes');
     }
 }

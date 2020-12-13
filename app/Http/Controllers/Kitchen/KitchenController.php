@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
-use Symfony\Component\Console\Output\ConsoleOutput;
+//use Symfony\Component\Console\Output\ConsoleOutput;
 
 
 class KitchenController extends Controller
@@ -20,32 +20,22 @@ class KitchenController extends Controller
     {
         $finorder = collect();
         $orders = Order::get();
-        $fin = collect();
 
-        $output = new ConsoleOutput();
-        // $output->writeln($orders);
+        /*
+         $output = new ConsoleOutput();
+         $output->writeln($orders);
+        */
         foreach($orders as $order){
             if($order->order_complete !== 'completed' && $order->order_complete !== 'not_sent'){
-                
-                $cart = collect();
                 $items = $order->items;
-                
-                foreach($items as $item){
-                    $cart->push(OrderItem::with('extras')->find($item->pivot->item_id));
-                    $output->writeln(OrderItem::with('extras')->find($item->pivot->item_id));
-                }
-                
+                $cart = OrderItem::with('extras')->where('order_id', '=', $order->id)->get();
                 if (is_null($cart) || $cart->count() == 0 ) {
-                    continue ;
+                    continue;
                 }
-                $finorder->push($cart->all());
-                $fin->push($finorder);
-                $fin->push($order->order_complete);
-                // $fin = ['Cart' => $finorder, 
-                // 'Order Status' => $order->order_complete];
+                $finorder->push(['cart' => $cart,'order_complete' => $order->order_complete]);
             }
         }
-        return response()->json($fin->all(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
+        return response()->json($finorder->all(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
     }
 
     /**

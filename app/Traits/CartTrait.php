@@ -8,18 +8,14 @@ use App\Models\OrderItem;
 trait CartTrait {
     public function showCart($id) 
     {
-        $cart = collect();
+        $finorder = collect();
         $order = Order::find($id);
         $items = $order->items;
-        foreach($items as $item){
-            $cart->push(OrderItem::with('extras')->find($item->pivot->item_id));
-        }
-
+        $cart = OrderItem::with('extras')->where('order_id', '=', $order->id)->get();
         if (is_null($cart) || $cart->count() == 0 || $order->order_complete !== 'not_sent') {
             return [];
         }
-
-        return $cart->all();
+        return $cart;
     }
     public function deleteUserType($id,$request)
     {
