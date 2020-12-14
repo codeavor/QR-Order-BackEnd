@@ -45,16 +45,22 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $role = '';
         $validator = Validator::make($request->all(), [
-            'role_name' => 'required',
             'umbrella_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-        
-        $role = Role::where('name', $request->input(['role_name']))->first();
+        if ($request->input(['umbrella_id']) > 0){
+            $role = 'customer';
+        }elseif ($request->input(['umbrella_id']) == 0){
+            $role = 'kitchen';
+        }else{
+            return response()->json(['error'=>'Invalid Umbrella id'], 401);
+        }
+        $role = Role::where('name', $role)->first();
         if($role){
             $userType = new UserType;
             $userType->role()->associate($role)->save();
@@ -73,7 +79,7 @@ class AuthController extends Controller
 
             $orderId = $order->id;
 
-            return response()->json(compact(['token', 'orderId']), 201);
+            return response()->json(compact(['token', 'orderId','role']), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }
