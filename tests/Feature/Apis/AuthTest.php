@@ -19,8 +19,7 @@ class AuthTest extends TestCase
         $role =  Role::factory()->create();
         
         $data = [
-            'role_name' => $role->name,
-            'umbrella_id' => 2
+            'umbrella_id' => 0
         ];
 
        // fwrite(STDERR, print_r($data, TRUE));
@@ -29,37 +28,46 @@ class AuthTest extends TestCase
         ->assertStatus(201)
         ->assertJsonStructure([
             'token',
-            'orderId'
+            'orderId',
+            "role_name" 
+        ]);
+        
+        $this->role2 = Role::create([
+            'name' => 'customer'
         ]);
 
         $data = [
-            'role_name'=> '',
             'umbrella_id' => 1
+        ];
+
+        $this->json('POST', route('api_register'),$data)
+        ->assertStatus(201)
+        ->assertJsonStructure([
+            'token',
+            'orderId',
+            "role_name" 
+        ]);;
+
+        $data = [
+            'role_name'=> $role->role_name,
+        ];
+
+        $this->json('POST', route('api_register'),$data)
+        ->assertStatus(401)
+        ->assertJsonStructure([
+            'error'
+        ]);
+
+        $this->role2 = Role::create([
+            'name' => 'kitchen'
+        ]);
+
+        $data = [
+            'umbrella_id' => -1
         ];
 
         $this->json('POST', route('api_register'),$data)
         ->assertStatus(401);
-
-        $data = [
-            'role_name'=> $role->name,
-        ];
-
-        $this->json('POST', route('api_register'),$data)
-        ->assertStatus(401)
-        ->assertJsonStructure([
-            'error'
-        ]);
-
-        $data = [
-            'role_name'=> 'assdsd',
-            'umbrella_id' => 1
-        ];
-
-        $this->json('POST', route('api_register'),$data)
-        ->assertStatus(401)
-        ->assertJsonStructure([
-            'error'
-        ]);
     }
 
     public function testLogin()

@@ -78,8 +78,9 @@ class AuthController extends Controller
             $order->save();
 
             $orderId = $order->id;
+            $role_name = $role->name;
 
-            return response()->json(compact(['token', 'orderId','role']), 201);
+            return response()->json(compact(['token', 'orderId','role_name']), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }

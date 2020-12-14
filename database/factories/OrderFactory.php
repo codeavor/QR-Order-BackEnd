@@ -23,7 +23,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'order_complete' => $this->faker->boolean($chanceOfGettingTrue = 0),
+            'order_complete' => 'not_sent',
             'umbrella_id' => $this->faker->randomNumber(2),
         ];
     }

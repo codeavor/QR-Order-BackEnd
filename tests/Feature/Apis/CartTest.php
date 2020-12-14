@@ -53,15 +53,15 @@ class CartTest extends TestCase
     {
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', $this->order->id))->assertStatus(200)
         ->assertJsonStructure([[
-            'order_item_id',
+            'id',
+            'order_id',
+            'item_id',
             'quantity',
-            'extras',
-            'extra_price',
-            'name',
-            'price'
+            'notes',
+            'extras'
         ]]);
 
-        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', 100))->assertStatus(200)->assertJson([]);
+        $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('cart.show', 100))->assertStatus(500);
 
         $this->withHeaders(['Authorization' => 'Bearer ' ])->json('GET', route('cart.show', $this->order->id))
         ->assertStatus(401);
@@ -76,7 +76,7 @@ class CartTest extends TestCase
     public function testUpdateCart()
     {
         $updatedData = [
-            'order_complete' => true
+            'order_complete' => 'not_sent'
         ];
 
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('PUT', route('cart.update', $this->order->id), $updatedData)

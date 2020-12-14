@@ -25,6 +25,7 @@ class OrderItemFactory extends Factory
     {
         return [
             'quantity' => $this->faker->randomNumber(1),
+            'notes' => 'notes'
         ];
     }
 }
