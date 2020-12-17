@@ -45,16 +45,17 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $role = '';
         $validator = Validator::make($request->all(), [
-            'role_name' => 'required',
             'umbrella_id' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        }
+        if ($validator->fails()) return response()->json(['error' => $validator->errors()], 401);
+        if ($request->input(['umbrella_id']) > 0) $role = 'customer';
+        elseif ($request->input(['umbrella_id']) == 0) $role = 'kitchen';
+        else return response()->json(['error'=>'Invalid Umbrella id'], 401);
         
-        $role = Role::where('name', $request->input(['role_name']))->first();
+        $role = Role::where('name', $role)->first();
         if($role){
             $userType = new UserType;
             $userType->role()->associate($role)->save();
@@ -67,14 +68,10 @@ class AuthController extends Controller
 
             $order = Order::create([
                 'umbrella_id' => $request->input(['umbrella_id']),
-                'order_complete' => false
             ]);
-            $order->userType()->associate($userType);
-            $order->save();
+            $order->userType()->associate($userType)->save();
 
-            $orderId = $order->id;
-
-            return response()->json(compact(['token', 'orderId']), 201);
+            return response()->json(array ('token' => $token, 'orderId'=>$order->id, 'role_name' => $role->name ), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }

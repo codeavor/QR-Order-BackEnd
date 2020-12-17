@@ -13,7 +13,7 @@ class Item extends Model
     public $timestamps = false;
 
     // Field that has to be filled
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'description'];
 
     // One to Many relation, one item has one category, one category has many items
     public function category()
@@ -24,7 +24,7 @@ class Item extends Model
     // Many to Many relation, one item has many orders, one order has many items
     public function orders()
     {
-        return $this->belongsToMany('App\Models\Order', 'order_items')->withPivot('quantity');
+        return $this->belongsToMany('App\Models\Order', 'order_items')->withPivot('order_id', 'item_id', 'quantity', 'notes');
     }
 
     // Many to Many relation, one item has many orders, one order has many items

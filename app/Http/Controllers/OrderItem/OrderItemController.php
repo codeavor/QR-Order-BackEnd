@@ -26,7 +26,8 @@ class OrderItemController extends CartController
             $orderItem = OrderItem::create([
                 'item_id' => $data['item_id'],
                 'order_id' => $data['order_id'],
-                'quantity'=> $data['quantity']
+                'quantity'=> $data['quantity'],
+                'note'=> $data['note']
             ]);    
         } catch (\Exception $exception) {
             return response()->json(["error" => "Record not created successfully!"], 406);

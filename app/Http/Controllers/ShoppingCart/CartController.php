@@ -32,26 +32,8 @@ class CartController extends Controller
     {
         $order = Order::find($id);
         if (is_null($order)) {
-            return response()->json(["error" => "Record not found!"], 404);
+            return response()->json(["Error" => "Record not found!"], 404);
         }
-        $order->update($request->all());
         return response()->json($this->deleteUserType($id,$request), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     $order = Order::find($id);
-    //     if (is_null($order)) {
-    //         return response()->json(["error" => "Record not found!"], 404);
-    //     }
-    //     $order->delete();
-
-    //     return response()->json(null, 204);
-    // }
 }
