@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Kitchen;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\UserType;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Validator;
 //use Symfony\Component\Console\Output\ConsoleOutput;
 
 
@@ -16,6 +18,22 @@ class KitchenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+ 
+    public function store(Request $request){
+        $validator = Validator::make($request->all(), [
+            'umbrella_id' => 'required',
+        ]);
+        if ($validator->fails()) return response()->json(['error' => $validator->errors()], 401);
+
+        $usertype = UserType::where('role_id', 2)->first();
+        $order = Order::create([
+            'umbrella_id' => $request->input(['umbrella_id']),
+        ]);
+        $order->userType()->associate($usertype)->save();
+        return response()->json($order->id, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
+    }
+
+
     public function index()
     {
         $finorder = collect();
