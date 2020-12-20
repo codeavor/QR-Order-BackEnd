@@ -29,6 +29,7 @@
 
 - [GET](#get)
     - [api/menu](#get-apimenu)
+    - [api/orders](#get-apiorders)
     - [api/menu/{item_id}](#get-apimenuitem_id)
     - [api/cart/{order_id}](#get-apicartorder_id)
 - [POST](#post)
@@ -69,13 +70,51 @@ Response:
                     "id",
                     "name",
                     "price",
-                    "category_id"
+                    "description"
                 }
             ]
         }
     ]
 }
 ````
+[Back to top](#api-endpoints)
+
+#### GET api/orders
+Used to get all sended orders.
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+[
+    {
+        "cart": [
+            {
+                "id": 
+                "order_id": 
+                "item_id": 
+                "quantity":
+                "notes": 
+                "extras" => [
+                     {
+                        "id": 
+                        "name": 
+                        "price":
+                        "pivot" => {
+                            "order_item_id": 
+                            "extra_id": 
+                        }
+                    }
+                ]
+            }
+        ],
+        "order_complete": "sent"
+    }
+]
+````
+
 [Back to top](#api-endpoints)
 
 #### GET api/menu/{item_id}
@@ -92,6 +131,7 @@ Response:
     "name",
     "price",
     "category_id",
+    "description",
     "extras" => 
     [
         {
@@ -120,12 +160,30 @@ Headers:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
     }
 ]
 ````
@@ -148,6 +206,7 @@ Body:
     "order_id",
     "item_id",
     "quantity",
+    "notes",
     "extras_id": [
         {
             "extra_id",
@@ -161,6 +220,7 @@ Response:
     "order_id",
     "item_id",
     "quantity",
+    "notes",
     "extras" => 
     [
         {
@@ -198,14 +258,20 @@ Used to connect with backend (get jwt).
 ````
 Body:
 {
-    "role_name",
     "umbrella_id"
 }
 
-Response:
+Response:(for customer)
 {
     "token",
-    "orderId
+    "orderId,
+    "role_name",
+}
+Response:(for kitchen)
+{
+    "token",
+    "role_name",
+    "userTypeId"
 }
 ````
 [Back to top](#api-endpoints)
@@ -254,7 +320,7 @@ Headers:
 
 Params:
 {
-    "order_complete": true
+    "order_complete": 'sent','unsent','completed','processed'
 }
 
 Response:
@@ -285,12 +351,30 @@ Params:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
     }
 ]
 ````
@@ -311,12 +395,30 @@ Headers:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
     }
 ]
 ````
