@@ -28,8 +28,8 @@ class AuthTest extends TestCase
         ->assertStatus(201)
         ->assertJsonStructure([
             'token',
-            'orderId',
-            "role_name" 
+            "role_name",
+            "UserTypeId",
         ]);
         
         $this->role2 = Role::create([
@@ -45,7 +45,8 @@ class AuthTest extends TestCase
         ->assertJsonStructure([
             'token',
             'orderId',
-            "role_name" 
+            "role_name",
+            "UserTypeId",
         ]);;
 
         $data = [

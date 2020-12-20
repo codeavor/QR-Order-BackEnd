@@ -65,13 +65,14 @@ class AuthController extends Controller
             //     return response()->json(['error' => 'could_not_create_token'], 500);
             // }
             $token = auth()->login($userType);
-
-            $order = Order::create([
-                'umbrella_id' => $request->input(['umbrella_id']),
-            ]);
-            $order->userType()->associate($userType)->save();
-
-            return response()->json(array ('token' => $token, 'orderId'=>$order->id, 'role_name' => $role->name ), 201);
+            if($role->name == 'customer'){
+                $order = Order::create([
+                    'umbrella_id' => $request->input(['umbrella_id']),
+                ]);
+                $order->userType()->associate($userType)->save();
+                return response()->json(array ('token' => $token, 'orderId'=>$order->id, 'role_name' => $role->name, 'UserTypeId' => $userType->id ), 201);
+            }
+            return response()->json(array ('token' => $token, 'role_name' => $role->name, 'UserTypeId' => $userType->id ), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }
