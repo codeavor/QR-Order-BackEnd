@@ -48,6 +48,29 @@ class KitchenTest extends TestCase
         $this->token2 = auth()->login($this->userType2);
     }
 
+    public function testStore()
+    {
+        $role2 = Role::factory()->create();
+        $userType2 = new UserType;
+        $role2->userTypes()->save($userType2);
+        $token2 = auth()->login($userType2);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token2])->json('POST', route('orders.store',[ 'id'=>$userType2->id]))
+        ->assertStatus(200)
+        ->assertJsonStructure(["OrderId"]);
+
+        $role2 = Role::create([
+            'name' => 'customer'
+        ]);
+        
+        $userType2 = new UserType;
+        $role2->userTypes()->save($userType2);
+        $token2 = auth()->login($userType2);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token2])->json('POST', route('orders.store',[ 'id'=>$userType2->id]))
+        ->assertStatus(401);
+    }
+
     public function testIndex()
     {
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('GET', route('orders.index'))

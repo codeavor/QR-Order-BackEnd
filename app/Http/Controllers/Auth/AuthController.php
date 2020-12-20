@@ -70,9 +70,9 @@ class AuthController extends Controller
                     'umbrella_id' => $request->input(['umbrella_id']),
                 ]);
                 $order->userType()->associate($userType)->save();
-                return response()->json(array ('token' => $token, 'orderId'=>$order->id, 'role_name' => $role->name ), 201);
+                return response()->json(array ('token' => $token, 'orderId'=>$order->id, 'role_name' => $role->name, 'UserTypeId' => $userType->id ), 201);
             }
-            return response()->json(array ('token' => $token, 'role_name' => $role->name ), 201);
+            return response()->json(array ('token' => $token, 'role_name' => $role->name, 'UserTypeId' => $userType->id ), 201);
         }
         return response()->json(['error'=>'Invalid Login Details'], 401);
     }

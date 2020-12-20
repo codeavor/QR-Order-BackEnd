@@ -13,7 +13,7 @@ class Item extends Model
     public $timestamps = false;
 
     // Field that has to be filled
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price','description'];
 
     // One to Many relation, one item has one category, one category has many items
     public function category()

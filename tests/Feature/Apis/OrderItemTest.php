@@ -36,7 +36,7 @@ class OrderItemTest extends TestCase
             'order_id' => $this->order->id,
             'item_id' => $this->item->id,
             'quantity' => 2,
-            'note' => 'note'
+            'notes' => 'note'
         ]);
         $this->role2 = Role::create([
             'name' => 'random'
@@ -103,7 +103,7 @@ class OrderItemTest extends TestCase
             'order_id' => $this->order->id,
             'quantity' => 5,
             'extras_id' => [$extra->id],
-            'note'=> 'notes'
+            'notes'=> 'notes'
         ];
 
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('POST', route('order_item.store'),$data)
@@ -114,7 +114,7 @@ class OrderItemTest extends TestCase
             'order_id' => $this->order->id,
             'quantity' => 5,
             'extras_id' => [],
-            'note' => ''
+            'notes' => ''
         ];
 
         $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])->json('POST', route('order_item.store'),$data2)
