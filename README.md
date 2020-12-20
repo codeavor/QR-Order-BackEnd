@@ -149,14 +149,21 @@ Headers:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
-    }
-]
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras": []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras": []
+    },
 ````
 [Back to top](#api-endpoints)
 
