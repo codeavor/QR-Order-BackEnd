@@ -284,7 +284,7 @@ Headers:
 
 Params:
 {
-    "order_complete": 'sent' ,'unsent','completed','processed'
+    "order_complete": 'sent','unsent','completed','processed'
 }
 
 Response:
