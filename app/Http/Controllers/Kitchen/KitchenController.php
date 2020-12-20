@@ -8,11 +8,14 @@ use App\Models\UserType;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Validator;
+use App\Traits\CartTrait;
 //use Symfony\Component\Console\Output\ConsoleOutput;
 
 
 class KitchenController extends Controller
 {
+    use CartTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -45,8 +48,7 @@ class KitchenController extends Controller
         */
         foreach($orders as $order){
             if($order->order_complete !== 'completed' && $order->order_complete !== 'not_sent'){
-                $items = $order->items;
-                $cart = OrderItem::with('extras')->where('order_id', '=', $order->id)->get();
+                $cart = $this->refactorCart($order);
                 if (is_null($cart) || $cart->count() == 0 ) {
                     continue;
                 }
