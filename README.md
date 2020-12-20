@@ -70,7 +70,7 @@ Response:
                     "id",
                     "name",
                     "price",
-                    "category_id"
+                    "description"
                 }
             ]
         }
@@ -97,7 +97,17 @@ Response:
                 "item_id": 
                 "quantity":
                 "notes": 
-                "extras": []
+                "extras" => [
+                     {
+                        "id": 
+                        "name": 
+                        "price":
+                        "pivot" => {
+                            "order_item_id": 
+                            "extra_id": 
+                        }
+                    }
+                ]
             }
         ],
         "order_complete": "sent"
@@ -121,6 +131,7 @@ Response:
     "name",
     "price",
     "category_id",
+    "description",
     "extras" => 
     [
         {
@@ -154,7 +165,7 @@ Response:
         "item_id": 
         "quantity":
         "notes": 
-        "extras": []
+        "extras" => []
     },
     {
         "id": 
@@ -162,8 +173,19 @@ Response:
         "item_id": 
         "quantity":
         "notes": 
-        "extras": []
-    },
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
+    }
+]
 ````
 [Back to top](#api-endpoints)
 
@@ -184,6 +206,7 @@ Body:
     "order_id",
     "item_id",
     "quantity",
+    "notes",
     "extras_id": [
         {
             "extra_id",
@@ -197,6 +220,7 @@ Response:
     "order_id",
     "item_id",
     "quantity",
+    "notes",
     "extras" => 
     [
         {
@@ -237,12 +261,17 @@ Body:
     "umbrella_id"
 }
 
-Response:
+Response:(for customer)
 {
     "token",
     "orderId,
     "role_name",
-    "UserTypeId"
+}
+Response:(for kitchen)
+{
+    "token",
+    "role_name",
+    "userTypeId"
 }
 ````
 [Back to top](#api-endpoints)
@@ -322,12 +351,30 @@ Params:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
     }
 ]
 ````
@@ -348,12 +395,30 @@ Headers:
 Response:
 [
     {
-        "order_item_id",
-        "quantity",
-        "extras",
-        "extras_price",
-        "name",
-        "price"
+        "id": 
+        "order_id": 
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => []
+    },
+    {
+        "id": 
+        "order_id":
+        "item_id": 
+        "quantity":
+        "notes": 
+        "extras" => [
+         {
+                "id": 
+                "name": 
+                "price":
+                "pivot": {
+                    "order_item_id": 
+                    "extra_id": 
+                }
+            },
+        ]
     }
 ]
 ````
