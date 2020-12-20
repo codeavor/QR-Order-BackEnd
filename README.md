@@ -29,6 +29,7 @@
 
 - [GET](#get)
     - [api/menu](#get-apimenu)
+    - [api/orders](#get-apiorders)
     - [api/menu/{item_id}](#get-apimenuitem_id)
     - [api/cart/{order_id}](#get-apicartorder_id)
 - [POST](#post)
@@ -76,6 +77,34 @@ Response:
     ]
 }
 ````
+[Back to top](#api-endpoints)
+
+#### GET api/orders
+Used to get all sended orders.
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+[
+    {
+        "cart": [
+            {
+                "id": 
+                "order_id": 
+                "item_id": 
+                "quantity":
+                "notes": 
+                "extras": []
+            }
+        ],
+        "order_complete": "sent"
+    }
+]
+````
+
 [Back to top](#api-endpoints)
 
 #### GET api/menu/{item_id}
@@ -198,14 +227,15 @@ Used to connect with backend (get jwt).
 ````
 Body:
 {
-    "role_name",
     "umbrella_id"
 }
 
 Response:
 {
     "token",
-    "orderId
+    "orderId,
+    "role_name",
+    "UserTypeId"
 }
 ````
 [Back to top](#api-endpoints)
@@ -254,7 +284,7 @@ Headers:
 
 Params:
 {
-    "order_complete": true
+    "order_complete": 'sent' ,'unsent','completed','processed'
 }
 
 Response:
