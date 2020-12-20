@@ -20,8 +20,11 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     if: github.event.pull_request.merged == true
     steps:
-      - name: Xdebug Action
-        uses: MilesChou/docker-xdebug@master
+      - name: Setup PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+        coverage: xdebug
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
