@@ -55,9 +55,9 @@ class KitchenTest extends TestCase
         $role2->userTypes()->save($userType2);
         $token2 = auth()->login($userType2);
 
-        $this->withHeaders(['Authorization' => 'Bearer ' . $token2])->json('POST', route('orders.store',[ 'id'=>$userType2->id]))
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token2])->json('POST', route('orders.store',[ 'user_id'=>$userType2->id]))
         ->assertStatus(200)
-        ->assertJsonStructure(["OrderId"]);
+        ->assertJsonStructure(["order_id"]);
 
         $role2 = Role::create([
             'name' => 'customer'
