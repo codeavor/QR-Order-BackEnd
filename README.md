@@ -33,6 +33,7 @@
     - [api/menu/{item_id}](#get-apimenuitem_id)
     - [api/cart/{order_id}](#get-apicartorder_id)
 - [POST](#post)
+    - [api/orders](#post-apiorders)
     - [api/order_item](#post-apiorder_item)
     - [api/auth/login](#post-apiauthlogin)
     - [api/auth/register](#post-apiauthregister)
@@ -40,6 +41,7 @@
     - [api/auth/refresh](#post-apiauthrefresh)
 - [PUT](#put)
     - [api/cart/{order_id}](#put-apicartorder_id)
+    - [api/orders/{order_id}](#put-apiordersorder_id)
     - [api/order_item/{order_item_id}](#put-apiorder_itemorder_item_id)
 - [DELETE](#delete)
     - [api/order_item/{order_item_id}](#delete-apiorder_itemorder_item_id)
@@ -70,7 +72,7 @@ Response:
                     "id",
                     "name",
                     "price",
-                    "description"
+                    "description",
                 }
             ]
         }
@@ -80,7 +82,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### GET api/orders
-Used to get all sended orders.
+Used to get all sent orders for kitchen.
 ````
 Headers:
 {
@@ -92,19 +94,22 @@ Response:
     {
         "cart": [
             {
-                "id": 
-                "order_id": 
-                "item_id": 
-                "quantity":
-                "notes": 
+                "id",
+                "order_id",
+                "item_id",
+                "quantity",
+                "notes",
+                "item_name",
+                "price",
+                "description",
                 "extras" => [
                      {
-                        "id": 
-                        "name": 
-                        "price":
+                        "id",
+                        "name", 
+                        "price",
                         "pivot" => {
-                            "order_item_id": 
-                            "extra_id": 
+                            "order_item_id",
+                            "extra_id",
                         }
                     }
                 ]
@@ -141,7 +146,7 @@ Response:
             "pivot" =>
             {
                 "item_id",
-                "extra_id
+                "extra_id,
             }
         }
     ]
@@ -150,7 +155,7 @@ Response:
 [Back to top](#api-endpoints)
 
 #### GET api/cart/{order_id}
-Get the cart.
+Get the cart for the customer or take-away.
 ````
 Headers:
 {
@@ -160,27 +165,23 @@ Headers:
 Response:
 [
     {
-        "id": 
-        "order_id": 
-        "item_id": 
-        "quantity":
-        "notes": 
-        "extras" => []
-    },
-    {
-        "id": 
-        "order_id":
-        "item_id": 
-        "quantity":
-        "notes": 
+        "id",
+        "order_id",
+        "item_id",
+        "quantity",
+        "item_name",
+        "price",
+        "description",
+        "notes",
         "extras" => [
          {
-                "id": 
-                "name": 
-                "price":
-                "pivot": {
-                    "order_item_id": 
-                    "extra_id": 
+                "id",
+                "name",
+                "price",
+                "pivot" => 
+                {
+                    "order_item_id",
+                    "extra_id", 
                 }
             },
         ]
@@ -192,6 +193,26 @@ Response:
 ___
 
 ### POST
+
+#### POST api/orders
+Create new order for kitchen.
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Body:
+{
+    "user_id": UserType id
+}
+
+Response:
+{
+    "order_id"
+}
+````
+[Back to top](#api-endpoints)
 
 #### POST api/order_item
 Create new orderItem and add it to my cart.
@@ -311,7 +332,32 @@ ___
 ### PUT
 
 #### PUT api/cart/{order_id}
-To mark an order as complete.
+To mark an order as sent and delete user.
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Params:
+{
+    "order_complete": 'sent','unsent','completed','processed'
+}
+
+Response:
+{
+    "id",
+    "umbrella_id",
+    "created_at",
+    "updated_at",
+    "order_complete",
+    "user_type_id"
+}
+````
+[Back to top](#api-endpoints)
+
+#### PUT api/orders/{order_id}
+To mark an order as sent, unsent, completed or processed for kitchen.
 ````
 Headers:
 {
@@ -351,27 +397,23 @@ Params:
 Response:
 [
     {
-        "id": 
-        "order_id": 
-        "item_id": 
-        "quantity":
-        "notes": 
-        "extras" => []
-    },
-    {
-        "id": 
-        "order_id":
-        "item_id": 
-        "quantity":
-        "notes": 
+        "id",
+        "order_id",
+        "item_id",
+        "quantity",
+        "item_name",
+        "price",
+        "description",
+        "notes",
         "extras" => [
          {
-                "id": 
-                "name": 
-                "price":
-                "pivot": {
-                    "order_item_id": 
-                    "extra_id": 
+                "id",
+                "name",
+                "price",
+                "pivot" => 
+                {
+                    "order_item_id",
+                    "extra_id", 
                 }
             },
         ]
@@ -395,27 +437,23 @@ Headers:
 Response:
 [
     {
-        "id": 
-        "order_id": 
-        "item_id": 
-        "quantity":
-        "notes": 
-        "extras" => []
-    },
-    {
-        "id": 
-        "order_id":
-        "item_id": 
-        "quantity":
-        "notes": 
+        "id",
+        "order_id",
+        "item_id",
+        "quantity",
+        "item_name",
+        "price",
+        "description",
+        "notes",
         "extras" => [
          {
-                "id": 
-                "name": 
-                "price":
-                "pivot": {
-                    "order_item_id": 
-                    "extra_id": 
+                "id",
+                "name",
+                "price",
+                "pivot" => 
+                {
+                    "order_item_id", 
+                    "extra_id",
                 }
             },
         ]

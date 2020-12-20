@@ -24,16 +24,16 @@ class KitchenController extends Controller
  
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
-            'id' => 'required',
+            'user_id' => 'required',
         ]);
         if ($validator->fails()) return response()->json(['error' => $validator->errors()], 401);
 
-        $usertype = UserType::where('id', '=', $request->input(['id']))->first();;
+        $usertype = UserType::where('id', '=', $request->input(['user_id']))->first();;
         $order = Order::create([
             'umbrella_id' => 0,
         ]);
         $order->userType()->associate($usertype)->save();
-        return response()->json(['OrderId' => $order->id], 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
+        return response()->json(['order_id' => $order->id], 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
     }
 
 
