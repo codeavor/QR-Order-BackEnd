@@ -8,13 +8,11 @@ use App\Models\UserType;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Validator;
-use App\Traits\CartTrait;
-//use Symfony\Component\Console\Output\ConsoleOutput;
-
+use App\Traits\KitchenTrait;
 
 class KitchenController extends Controller
 {
-    use CartTrait;
+    use KitchenTrait;
 
     /**
      * Display a listing of the resource.
@@ -36,26 +34,9 @@ class KitchenController extends Controller
         return response()->json(['order_id' => $order->id], 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
     }
 
-
     public function index()
-    {
-        $finorder = collect();
-        $orders = Order::get();
-
-        /*
-         $output = new ConsoleOutput();
-         $output->writeln($orders);
-        */
-        foreach($orders as $order){
-            if($order->order_complete !== 'completed' && $order->order_complete !== 'not_sent'){
-                $cart = $this->refactorCart($order);
-                if (is_null($cart) || $cart->count() == 0 ) {
-                    continue;
-                }
-                $finorder->push(['cart' => $cart,'order_complete' => $order->order_complete]);
-            }
-        }
-        return response()->json($finorder->all(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
+    { 
+        return response()->json($this->returnOrders(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE); 
     }
 
     /**
@@ -65,14 +46,15 @@ class KitchenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    
+    public function update(Request $request, $id) 
     {
         $order = Order::find($id);
         if (is_null($order)) {
             return response()->json(["Error" => "Record not found!"], 404);
         }
         $order->update($request->all());
-        return response()->json($order, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        return response()->json($this->returnOrders(), 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     /**
