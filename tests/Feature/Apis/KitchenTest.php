@@ -94,7 +94,7 @@ class KitchenTest extends TestCase
                     ]
                 ],
                 "order_complete",
-                "created_at",
+                "updated_at",
                 "umbrella_id"
             ]
         ]);

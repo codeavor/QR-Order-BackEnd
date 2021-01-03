@@ -20,7 +20,7 @@ trait KitchenTrait {
                 if (is_null($cart) || $cart->count() == 0 ) {
                     continue; 
                 }
-                $finorder->push(['cart' => $cart,'order_complete' => $order->order_complete,'created_at' => $order->created_at,'umbrella_id' => $order->umbrella_id]);
+                $finorder->push(['cart' => $cart,'order_complete' => $order->order_complete,'updated_at' => $order->updated_at,'umbrella_id' => $order->umbrella_id]);
             }
         }
         return $finorder;
