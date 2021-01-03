@@ -12,7 +12,7 @@ trait KitchenTrait {
     public function returnOrders() 
     {
         $finorder = collect();
-        $orders = Order::orderByDesc('updated_at')->get();   
+        $orders = Order::orderBy('updated_at')->get();   
         // edo sto order  kano order by updated at decented
         foreach($orders as $order){
             if($order->order_complete !== 'completed' && $order->order_complete !== 'not_sent'){
