@@ -45,7 +45,7 @@
     - [api/order_item/{order_item_id}](#put-apiorder_itemorder_item_id)
 - [DELETE](#delete)
     - [api/order_item/{order_item_id}](#delete-apiorder_itemorder_item_id)
-    - [api/cart/{order_id}](#delete-apicartorder_id)
+    - [api/orders/{order_id}](#delete-apicartorder_id)
 
 ___
 
@@ -115,7 +115,9 @@ Response:
                 ]
             }
         ],
-        "order_complete": "sent"
+        "order_complete": "sent",
+        "updated_at": "date",
+        "umbralla_id": "0","1"
     }
 ]
 ````
@@ -370,14 +372,36 @@ Params:
 }
 
 Response:
-{
-    "id",
-    "umbrella_id",
-    "created_at",
-    "updated_at",
-    "order_complete",
-    "user_type_id"
-}
+[
+    {
+        "cart": [
+            {
+                "id",
+                "order_id",
+                "item_id",
+                "quantity",
+                "notes",
+                "item_name",
+                "price",
+                "description",
+                "extras" => [
+                     {
+                        "id",
+                        "name", 
+                        "price",
+                        "pivot" => {
+                            "order_item_id",
+                            "extra_id",
+                        }
+                    }
+                ]
+            }
+        ],
+        "order_complete": "sent",
+        "updated_at": "date",
+        "umbralla_id": "0","1"
+    }
+]
 ````
 [Back to top](#api-endpoints)
 
@@ -459,6 +483,19 @@ Response:
         ]
     }
 ]
+````
+[Back to top](#api-endpoints)
+
+#### DELETE api/orders/{order_id}
+To delete an order.
+````
+Headers:
+{
+    'Authorization' : 'Bearer ' token
+}
+
+Response:
+[]
 ````
 [Back to top](#api-endpoints)
 
