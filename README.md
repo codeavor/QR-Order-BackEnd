@@ -45,7 +45,7 @@
     - [api/order_item/{order_item_id}](#put-apiorder_itemorder_item_id)
 - [DELETE](#delete)
     - [api/order_item/{order_item_id}](#delete-apiorder_itemorder_item_id)
-    - [api/orders/{order_id}](#delete-apiorders_{order_id})
+    - [api/orders/{order_id}](#delete-apiordersorder_id)
 
 ___
 
